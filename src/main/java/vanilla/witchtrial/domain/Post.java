@@ -3,12 +3,6 @@ package vanilla.witchtrial.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -22,7 +16,7 @@ import java.util.Set;
         @Index(columnList = "createdBy")
 })
 @Entity
-public class Post {
+public class Post extends AuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +24,7 @@ public class Post {
 
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false, length = 10000)
+    @Column(nullable = false, length = 2000)
     private String content;
 
     private String hashtag;
@@ -39,16 +33,6 @@ public class Post {
     @OrderBy("id")
     @OneToMany(mappedBy = "post")
     private final Set<PostComment> postComments = new LinkedHashSet<>();
-
-
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @CreatedBy @Column(length = 100)
-    private String createdBy;
-    @LastModifiedDate
-    private LocalDateTime modifiedAt;
-    @LastModifiedBy @Column(length = 100)
-    private String modifiedBy;
 
     protected Post() {}
 

@@ -3,12 +3,6 @@ package vanilla.witchtrial.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -16,10 +10,10 @@ import java.util.Objects;
 @Table(indexes = {
         @Index(columnList = "content"),
         @Index(columnList = "createdAt"),
-        @Index(columnList = "createdBy"),
+        @Index(columnList = "createdBy")
 })
 @Entity
-public class PostComment {
+public class PostComment extends AuditingFields {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,17 +21,6 @@ public class PostComment {
     private Post post;
     @Column(nullable = false, length = 500)
     private String content;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @CreatedBy
-    @Column(length = 100)
-    private String createdBy;
-    @LastModifiedDate
-    private LocalDateTime modifiedAt;
-    @LastModifiedBy
-    @Column(length = 100)
-    private String modifiedBy;
 
     protected PostComment() {}
 
