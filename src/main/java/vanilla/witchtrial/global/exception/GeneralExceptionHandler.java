@@ -77,6 +77,17 @@ public class GeneralExceptionHandler {
                 .body(errorResponse);
     }
 
+    /**
+     * 패스워드가 일치하지 않을 때
+     */
+    @ExceptionHandler(value = { InvalidPasswordException.class })
+    protected ResponseEntity<ApiResponse> handleInvalidPasswordException(DuplicatedEntityException e) {
+        log.error("NotFoundException", e);
+        ApiResponse errorResponse = ApiResponse.of(HttpStatus.BAD_REQUEST.toString(), e.getMessage());
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(errorResponse);
+    }
+
 
     /**
      * 나머지 예외 발생

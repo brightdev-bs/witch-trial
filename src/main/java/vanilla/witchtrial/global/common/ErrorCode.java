@@ -11,6 +11,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "Can't find the user"),
     DUPLICATE_USER(HttpStatus.BAD_REQUEST, "Can't use the email. It is already being used"),
     INVALID_TYPE(HttpStatus.BAD_REQUEST, "Type deosn't match"),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "Incorrect Password"),
     ;
 
     private HttpStatus httpStatus;

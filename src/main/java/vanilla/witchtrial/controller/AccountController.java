@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +20,12 @@ import vanilla.witchtrial.service.AccountService;
 public class AccountController {
 
     private final AccountService accountService;
+
+    @PostMapping("/login")
+    public ApiResponse login(@RequestBody @Valid LoginDto loginDto) {
+        Long userId = accountService.login(loginDto);
+        return ApiResponse.of(HttpStatus.OK.toString(), userId);
+    }
 
     @PostMapping("/signup")
     public ApiResponse signup(@RequestBody @Valid SignupDto signupDto) {

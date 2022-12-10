@@ -3,13 +3,19 @@ package vanilla.witchtrial.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vanilla.witchtrial.domain.User;
+import vanilla.witchtrial.domain.dto.LoginDto;
 import vanilla.witchtrial.domain.dto.SignupDto;
+import vanilla.witchtrial.global.common.ErrorCode;
+import vanilla.witchtrial.global.exception.BusinessException;
 import vanilla.witchtrial.global.exception.DuplicatedEntityException;
+import vanilla.witchtrial.global.exception.InvalidPasswordException;
+import vanilla.witchtrial.global.exception.NotFoundException;
 import vanilla.witchtrial.repository.UserRepository;
 
 import java.util.Optional;
 
 import static vanilla.witchtrial.global.common.ErrorCode.DUPLICATE_USER;
+import static vanilla.witchtrial.global.common.ErrorCode.INVALID_PASSWORD;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +32,15 @@ public class AccountServiceImpl implements AccountService {
         User newUser = User.of(signupDto.getEmail(), signupDto.getUsername(), signupDto.getPassword());
         userRepository.save(newUser);
         return newUser.getId();
+    }
+
+    @Override
+    public Long login(LoginDto loginDto) {
+        User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+        if (!user.getPassword().equals(loginDto.getPassword())) {
+            new InvalidPasswordException(INVALID_PASSWORD);
+        }
+
+        return user.getId();
     }
 }
