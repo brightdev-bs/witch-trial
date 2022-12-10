@@ -9,7 +9,7 @@ public enum ErrorCode {
     NOT_EXISTS_HEADER(HttpStatus.BAD_REQUEST, "Can't find a header info"),
     PRODUCT_NOT_FOUND(HttpStatus.BAD_REQUEST, "Can't find the product"),
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "Can't find the user"),
-    DUPLICATE_WISH_PRODUCT(HttpStatus.BAD_REQUEST, "It is already in wishlist"),
+    DUPLICATE_USER(HttpStatus.BAD_REQUEST, "Can't use the email. It is already being used"),
     INVALID_TYPE(HttpStatus.BAD_REQUEST, "Type deosn't match"),
     ;
 

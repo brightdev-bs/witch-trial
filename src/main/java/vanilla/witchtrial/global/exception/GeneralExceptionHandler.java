@@ -20,8 +20,7 @@ public class GeneralExceptionHandler {
     protected ResponseEntity<ApiResponse> handleBindException(BindException e) {
         log.error("handleBindException", e);
         ApiResponse errorResponse = ApiResponse.of(HttpStatus.BAD_REQUEST.toString(), e.getBindingResult());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(errorResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     /**
