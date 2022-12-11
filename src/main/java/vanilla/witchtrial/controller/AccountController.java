@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vanilla.witchtrial.domain.dto.LoginDto;
 import vanilla.witchtrial.domain.dto.SignupDto;
+import vanilla.witchtrial.domain.dto.UserDto;
 import vanilla.witchtrial.global.response.ApiResponse;
 import vanilla.witchtrial.service.AccountService;
 
@@ -23,13 +24,13 @@ public class AccountController {
 
     @PostMapping("/login")
     public ApiResponse login(@RequestBody @Valid LoginDto loginDto) {
-        Long userId = accountService.login(loginDto);
-        return ApiResponse.of(HttpStatus.OK.toString(), userId);
+        UserDto user = accountService.login(loginDto);
+        return ApiResponse.of(HttpStatus.OK.toString(), user);
     }
 
     @PostMapping("/signup")
     public ApiResponse signup(@RequestBody @Valid SignupDto signupDto) {
         accountService.signup(signupDto);
-        return ApiResponse.of(HttpStatus.CREATED.toString(), "성공");
+        return ApiResponse.of(HttpStatus.CREATED.toString(), "회원가입되었습니다.");
     }
 }

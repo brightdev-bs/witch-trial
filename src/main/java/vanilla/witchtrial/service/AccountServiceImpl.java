@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import vanilla.witchtrial.domain.User;
 import vanilla.witchtrial.domain.dto.LoginDto;
 import vanilla.witchtrial.domain.dto.SignupDto;
+import vanilla.witchtrial.domain.dto.UserDto;
 import vanilla.witchtrial.global.common.ErrorCode;
-import vanilla.witchtrial.global.exception.BusinessException;
 import vanilla.witchtrial.global.exception.DuplicatedEntityException;
 import vanilla.witchtrial.global.exception.InvalidPasswordException;
 import vanilla.witchtrial.global.exception.NotFoundException;
@@ -35,12 +35,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Long login(LoginDto loginDto) {
+    public UserDto login(LoginDto loginDto) {
         User user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
         if (!user.getPassword().equals(loginDto.getPassword())) {
             new InvalidPasswordException(INVALID_PASSWORD);
         }
 
-        return user.getId();
+        return UserDto.builder()
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .build();
     }
 }

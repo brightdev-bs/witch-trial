@@ -6,6 +6,10 @@ import lombok.ToString;
 
 @Getter
 @ToString
+@Table(indexes = {
+        @Index(columnList = "email"),
+        @Index(columnList = "username")
+})
 @Entity
 public class User extends AuditingFields {
 
@@ -13,16 +17,17 @@ public class User extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, length=100)
+    @Column(nullable = false, unique = true, length = 100)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
-    protected User() {}
+    protected User() {
+    }
 
     private User(String email, String username, String password) {
         this.email = email;
