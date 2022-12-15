@@ -3,6 +3,9 @@ package vanilla.witchtrial.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
+import vanilla.witchtrial.domain.dto.PostDto;
+import vanilla.witchtrial.domain.dto.type.PostType;
+
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -29,6 +32,10 @@ public class Post extends AuditingFields {
 
     private String hashtag;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PostType postType;
+
     @ToString.Exclude
     @OrderBy("id")
     @OneToMany(mappedBy = "post")
@@ -36,14 +43,21 @@ public class Post extends AuditingFields {
 
     protected Post() {}
 
-    private Post(String title, String content, String hashtag) {
+    private Post(String title, String content, String hashtag, PostType postType) {
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
+        this.postType = postType;
     }
 
-    public static Post of(String title, String content, String hashtag) {
-        return new Post(title, content, hashtag);
+    public static Post of(String title, String content, String hashtag, PostType postType) {
+        return new Post(title, content, hashtag, postType);
+    }
+
+    public void updatePost(PostDto.UpdateRequest postDto) {
+        this.title = postDto.getTitle();
+        this.content = postDto.getContent();
+        this.hashtag = postDto.getHashtag();
     }
 
     @Override

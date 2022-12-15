@@ -13,7 +13,6 @@ import vanilla.witchtrial.repository.PostRepository;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.then;
 
 @DisplayName("비즈니스 로직 - 댓글")

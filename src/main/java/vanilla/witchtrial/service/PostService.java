@@ -1,14 +1,16 @@
 package vanilla.witchtrial.service;
 
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import vanilla.witchtrial.domain.dto.BoardDto;
 import vanilla.witchtrial.domain.dto.PostDto;
 
+import java.util.List;
+
 public interface PostService {
 
-    Page<BoardDto.Response> getBoardList(BoardDto.Request request);
+    List<BoardDto.Response> getBoardList(BoardDto.Request request, Pageable pageable);
 
-    BoardDto.Response getPostDetail(Long postId);
+    PostDto.Response getPostDetail(Long postId);
 
     void saveNewPost(PostDto.Request postDto);
 
