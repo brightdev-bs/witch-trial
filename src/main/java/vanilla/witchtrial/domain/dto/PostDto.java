@@ -10,7 +10,6 @@ import vanilla.witchtrial.domain.dto.type.PostType;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PostDto {
 
@@ -50,8 +49,8 @@ public class PostDto {
         private String hashtag;
         private PostType postType;
         private String createdBy;
-        private List<PostCommentDto.Response> comments;
         private LocalDateTime createdAt;
+        private List<PostCommentDto.Response> comments;
 
         public static Response toResponse(Post post) {
             return Response.builder()

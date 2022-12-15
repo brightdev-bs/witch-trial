@@ -4,11 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vanilla.witchtrial.domain.dto.BoardDto;
+import vanilla.witchtrial.domain.dto.PostDto;
 import vanilla.witchtrial.global.response.ApiResponse;
 import vanilla.witchtrial.service.PostService;
 
@@ -25,5 +23,11 @@ public class PostController {
     public ApiResponse boardList(@RequestBody @Valid BoardDto.Request request) {
         List<BoardDto.Response> boardList = postService.getBoardList(request, PageRequest.of(request.getPage(), request.getSize()));
         return ApiResponse.of(HttpStatus.OK.toString(), boardList);
+    }
+
+    @GetMapping("{postId}")
+    public ApiResponse getPostDetail(@PathVariable Long postId) {
+        PostDto.Response postDetail = postService.getPostDetail(postId);
+        return ApiResponse.of(HttpStatus.OK.toString(), postDetail);
     }
 }
