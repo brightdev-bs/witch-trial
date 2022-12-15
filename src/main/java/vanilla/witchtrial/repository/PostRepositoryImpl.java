@@ -11,8 +11,10 @@ import vanilla.witchtrial.domain.dto.type.BoardSearchType;
 import vanilla.witchtrial.domain.dto.type.PostType;
 
 import java.util.List;
+import java.util.Optional;
 
 import static vanilla.witchtrial.domain.QPost.post;
+import static vanilla.witchtrial.domain.QPostComment.postComment;
 import static vanilla.witchtrial.global.common.ErrorCode.INVALID_PARAMS;
 
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -68,5 +70,13 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
 
         return null;
+    }
+
+    @Override
+    public Optional<Post> findByIdWithDsl(Long id) {
+        return Optional.ofNullable(queryFactory.selectFrom(post)
+                .join(post.postComments, postComment).fetchJoin()
+                .where(post.id.eq(id))
+                .fetchOne());
     }
 }

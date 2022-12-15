@@ -28,7 +28,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto.Response getPostDetail(Long postId) {
-        Post post = postRepository.findById(postId)
+        Post post = postRepository.findByIdWithDsl(postId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POST_NOT_FOUND));
         return PostDto.Response.toResponse(post);
     }
