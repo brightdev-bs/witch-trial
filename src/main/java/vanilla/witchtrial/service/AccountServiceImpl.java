@@ -6,7 +6,7 @@ import vanilla.witchtrial.domain.User;
 import vanilla.witchtrial.domain.dto.LoginDto;
 import vanilla.witchtrial.domain.dto.SignupDto;
 import vanilla.witchtrial.domain.dto.UserDto;
-import vanilla.witchtrial.global.common.ErrorCode;
+import vanilla.witchtrial.global.common.constants.ErrorCode;
 import vanilla.witchtrial.global.exception.DuplicatedEntityException;
 import vanilla.witchtrial.global.exception.InvalidPasswordException;
 import vanilla.witchtrial.global.exception.NotFoundException;
@@ -14,8 +14,8 @@ import vanilla.witchtrial.repository.UserRepository;
 
 import java.util.Optional;
 
-import static vanilla.witchtrial.global.common.ErrorCode.DUPLICATE_USER;
-import static vanilla.witchtrial.global.common.ErrorCode.INVALID_PASSWORD;
+import static vanilla.witchtrial.global.common.constants.ErrorCode.DUPLICATE_USER;
+import static vanilla.witchtrial.global.common.constants.ErrorCode.INVALID_PASSWORD;
 
 @Service
 @RequiredArgsConstructor

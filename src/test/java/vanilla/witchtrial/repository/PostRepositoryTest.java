@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import vanilla.witchtrial.domain.Post;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static vanilla.witchtrial.global.common.ErrorCode.POST_NOT_FOUND;
+import static vanilla.witchtrial.global.common.constants.ErrorCode.POST_NOT_FOUND;
 
 @DataJpaTest
 class PostRepositoryTest {

@@ -1,7 +1,7 @@
 package vanilla.witchtrial.global.exception;
 
 import lombok.Getter;
-import vanilla.witchtrial.global.common.ErrorCode;
+import vanilla.witchtrial.global.common.constants.ErrorCode;
 
 @Getter
 public class DuplicatedEntityException extends RuntimeException {
