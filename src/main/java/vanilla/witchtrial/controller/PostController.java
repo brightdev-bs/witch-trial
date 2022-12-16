@@ -36,4 +36,11 @@ public class PostController {
         PostDto.Response response = postService.saveNewPost(request);
         return ApiResponse.of(HttpStatus.OK.toString(), response);
     }
+
+    @PatchMapping("/{postId}")
+    public ApiResponse editPost(@PathVariable Long postId, @RequestBody @Valid PostDto.UpdateRequest request) {
+        request.setPostId(postId);
+        PostDto.Response response = postService.updatePost(request);
+        return ApiResponse.of(HttpStatus.OK.toString(), response);
+    }
 }

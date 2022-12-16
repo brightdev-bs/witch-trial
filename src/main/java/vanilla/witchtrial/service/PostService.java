@@ -14,7 +14,7 @@ public interface PostService {
 
     PostDto.Response saveNewPost(PostDto.Request postDto);
 
-    void updatePost(PostDto.UpdateRequest postDto);
+    PostDto.Response updatePost(PostDto.UpdateRequest postDto);
 
     void deletePost(Long id);
 }
