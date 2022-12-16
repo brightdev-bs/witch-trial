@@ -16,6 +16,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import vanilla.witchtrial.domain.dto.BoardDto;
+import vanilla.witchtrial.domain.dto.PostDto;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -23,6 +24,7 @@ import java.util.stream.Stream;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -93,6 +95,51 @@ class PostControllerTest {
                 .andExpect(jsonPath("$['data'].createdBy", notNullValue()))
                 .andExpect(jsonPath("$['data'].createdAt", notNullValue()))
                 .andExpect(jsonPath("$['data']['comments'][*]", hasSize(2)))
+                .andDo(print());
+    }
+
+    @DisplayName("게시글 생성 API")
+    @Test
+    void savePost() throws Exception {
+        PostDto.Request postDto = PostDto.Request.builder()
+                .title("title")
+                .content("content")
+                .hashtag("#test")
+                .postType("TRIAL")
+                .createdBy("vanille")
+                .build();
+
+        mockMvc.perform(post("/api/v1/board")
+                        .content(objectMapper.writeValueAsString(postDto))
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.title").exists())
+                .andExpect(jsonPath("$.data.content").exists())
+                .andExpect(jsonPath("$.data.hashtag").exists())
+                .andExpect(jsonPath("$.data.postType").exists())
+                .andExpect(jsonPath("$.data.createdBy").exists())
+                .andExpect(jsonPath("$.data.createdAt").exists())
+                .andExpect(jsonPath("$.data.comments.[*]", hasSize(0)))
+                .andDo(print());
+    }
+
+    @DisplayName("게시글 생성 API : 실패 (잘못된 게시글 유형)")
+    @Test
+    void savePostFailWithWrongPostType() throws Exception {
+        PostDto.Request postDto = PostDto.Request.builder()
+                .title("title")
+                .content("content")
+                .hashtag("#test")
+                .postType("wrong")
+                .createdBy("vanille")
+                .build();
+
+        mockMvc.perform(post("/api/v1/board")
+                        .content(objectMapper.writeValueAsString(postDto))
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isBadRequest())
                 .andDo(print());
     }
 

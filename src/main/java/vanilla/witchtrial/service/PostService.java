@@ -12,7 +12,7 @@ public interface PostService {
 
     PostDto.Response getPostDetail(Long postId);
 
-    void saveNewPost(PostDto.Request postDto);
+    PostDto.Response saveNewPost(PostDto.Request postDto);
 
     void updatePost(PostDto.UpdateRequest postDto);
 

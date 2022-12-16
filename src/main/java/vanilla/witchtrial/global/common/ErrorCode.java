@@ -6,13 +6,22 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
 
-    NOT_EXISTS_HEADER(HttpStatus.BAD_REQUEST, "Can't find a header info"),
-    POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "Can't find the post"),
-    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "Can't find the user"),
+    NOT_EXISTS_HEADER(HttpStatus.BAD_REQUEST, "Header is necessary"),
+
+
     DUPLICATE_USER(HttpStatus.BAD_REQUEST, "Can't use the email. It is already being used"),
-    INVALID_TYPE(HttpStatus.BAD_REQUEST, "Type deosn't match"),
-    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "Incorrect Password"),
+    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "Can't find the user"),
+
+    /*  POST Error */
+    POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "Can't find the post"),
+    NOT_EXISTS_POST_TYPE(HttpStatus.BAD_REQUEST, "Post-type is necessary"),
+    INVALID_POST_TYPE(HttpStatus.BAD_REQUEST, "Type deosn't match"),
+
+
+    /* Common Error */
     INVALID_PARAMS(HttpStatus.BAD_REQUEST, "Invalid Params"),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "Incorrect Password"),
+
     ;
 
     private HttpStatus httpStatus;

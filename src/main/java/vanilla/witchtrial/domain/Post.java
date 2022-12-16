@@ -25,7 +25,7 @@ public class Post extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String title;
     @Column(nullable = false, length = 2000)
     private String content;

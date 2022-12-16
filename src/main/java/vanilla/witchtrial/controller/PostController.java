@@ -30,4 +30,10 @@ public class PostController {
         PostDto.Response postDetail = postService.getPostDetail(postId);
         return ApiResponse.of(HttpStatus.OK.toString(), postDetail);
     }
+
+    @PostMapping
+    public ApiResponse savePost(@RequestBody @Valid PostDto.Request request) {
+        PostDto.Response response = postService.saveNewPost(request);
+        return ApiResponse.of(HttpStatus.OK.toString(), response);
+    }
 }
