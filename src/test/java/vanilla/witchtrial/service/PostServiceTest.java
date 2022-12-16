@@ -1,5 +1,6 @@
 package vanilla.witchtrial.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,8 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.dto.BoardDto;
 import vanilla.witchtrial.domain.dto.PostDto;
-import vanilla.witchtrial.domain.dto.type.PostType;
 import vanilla.witchtrial.domain.dto.type.BoardSearchType;
+import vanilla.witchtrial.domain.dto.type.PostType;
+import vanilla.witchtrial.global.exception.NotFoundException;
 import vanilla.witchtrial.repository.PostRepository;
 
 import java.util.List;
@@ -95,7 +97,7 @@ class PostServiceTest {
                 .hashtag("#test")
                 .build();
 
-        when(postRepository.findById(postId)).thenReturn(Optional.of(post));
+        when(postRepository.findByIdWithDsl(postId)).thenReturn(Optional.of(post));
 
         sut.updatePost(postDto);
 
@@ -104,6 +106,20 @@ class PostServiceTest {
                 .hasFieldOrPropertyWithValue("title", postDto.getTitle())
                 .hasFieldOrPropertyWithValue("content", postDto.getContent())
                 .hasFieldOrPropertyWithValue("hashtag", postDto.getHashtag());
+    }
+
+    @DisplayName("없는 게시글 ID가 넘어오면, 게시글을 업데이트 실패한다.")
+    @Test
+    void updatePostFailWithWrongId() {
+        // Given
+        PostDto.UpdateRequest postDto = PostDto.UpdateRequest.builder()
+                .postId(-1L)
+                .title("change-title")
+                .content("change-content")
+                .hashtag("#test")
+                .build();
+
+        Assertions.assertThrows(NotFoundException.class, () -> sut.updatePost(postDto));
     }
 
 

@@ -52,6 +52,7 @@ public class PostDto {
         private PostType postType;
         private String createdBy;
         private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
         private List<PostCommentDto.Response> comments;
 
         public static Response from(Post post) {
@@ -61,8 +62,9 @@ public class PostDto {
                     .hashtag(post.getHashtag())
                     .postType(post.getPostType())
                     .createdBy(post.getCreatedBy())
-                    .comments(post.getPostComments().stream().map(PostCommentDto.Response::from).toList())
                     .createdAt(post.getCreatedAt())
+                    .modifiedAt(post.getModifiedAt())
+                    .comments(post.getPostComments().stream().map(PostCommentDto.Response::from).toList())
                     .build();
         }
     }

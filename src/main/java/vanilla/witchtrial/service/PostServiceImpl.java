@@ -44,12 +44,13 @@ public class PostServiceImpl implements PostService {
         return PostDto.Response.from(post);
     }
 
-    // Todo : 제대로 업데이트 되는지 테스트 작성할 것.
     @Transactional
     @Override
-    public void updatePost(PostDto.UpdateRequest postDto) {
-        Post post = postRepository.findById(postDto.getPostId()).orElseThrow(() -> new NotFoundException(ErrorCode.POST_NOT_FOUND));
+    public PostDto.Response updatePost(PostDto.UpdateRequest postDto) {
+        Post post = postRepository.findByIdWithDsl(postDto.getPostId()).orElseThrow(() -> new NotFoundException(ErrorCode.POST_NOT_FOUND));
         post.updatePost(postDto);
+
+        return PostDto.Response.from(post);
     }
 
     @Transactional
