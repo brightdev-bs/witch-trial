@@ -38,7 +38,7 @@ public class Post extends AuditingFields {
 
     @ToString.Exclude
     @OrderBy("id")
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<PostComment> postComments = new LinkedHashSet<>();
 
     protected Post() {}

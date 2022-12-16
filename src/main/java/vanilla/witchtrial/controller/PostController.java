@@ -12,6 +12,8 @@ import vanilla.witchtrial.service.PostService;
 
 import java.util.List;
 
+import static vanilla.witchtrial.global.common.constants.Constants.RESPONSE_SUCCESS;
+
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/board")
 @RestController
@@ -42,5 +44,11 @@ public class PostController {
         request.setPostId(postId);
         PostDto.Response response = postService.updatePost(request);
         return ApiResponse.of(HttpStatus.OK.toString(), response);
+    }
+
+    @DeleteMapping("/{postId}")
+    public ApiResponse deletePost(@PathVariable Long postId) {
+        postService.deletePost(postId);
+        return ApiResponse.of(HttpStatus.OK.toString(), RESPONSE_SUCCESS);
     }
 }

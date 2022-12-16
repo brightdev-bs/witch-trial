@@ -135,7 +135,12 @@ class PostServiceTest {
         then(postRepository).should().delete(any(Post.class));
     }
 
-
+    @DisplayName("잘못된 게시글 ID를 입력하면, 게시글을 삭제 실패한다.")
+    @Test
+    void deletePostFailWithWrongId() {
+        Long postId = -1L;
+        Assertions.assertThrows(NotFoundException.class, () -> sut.deletePost(postId));
+    }
 
     private Post createPost(Long id) {
         Post post = Post.of(

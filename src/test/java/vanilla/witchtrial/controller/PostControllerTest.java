@@ -18,6 +18,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 import vanilla.witchtrial.domain.dto.BoardDto;
 import vanilla.witchtrial.domain.dto.PostDto;
+import vanilla.witchtrial.global.common.constants.Constants;
+import vanilla.witchtrial.global.exception.NotFoundException;
+import vanilla.witchtrial.service.PostService;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -36,6 +39,9 @@ class PostControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private PostService postService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -169,6 +175,19 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.data.comments").exists())
                 .andExpect(jsonPath("$.data.comments.[*]", hasSize(2)))
                 .andDo(print());
+    }
+
+    @DisplayName("게시글 삭제 API")
+    @Test
+    void deletePost() throws Exception {
+        Long postId = 1L;
+
+        mockMvc.perform(delete("/api/v1/board/" + 1))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").value(Constants.RESPONSE_SUCCESS))
+                .andDo(print());
+
+        Assertions.assertThrows(NotFoundException.class, () -> postService.getPostDetail(postId));
     }
 
 }
