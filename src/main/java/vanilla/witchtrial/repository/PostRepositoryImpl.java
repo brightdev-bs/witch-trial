@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static vanilla.witchtrial.domain.QPost.post;
 import static vanilla.witchtrial.domain.QPostComment.postComment;
-import static vanilla.witchtrial.global.common.ErrorCode.INVALID_PARAMS;
+import static vanilla.witchtrial.global.common.constants.ErrorCode.INVALID_PARAMS;
 
 public class PostRepositoryImpl implements PostRepositoryCustom {
 

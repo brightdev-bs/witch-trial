@@ -1,4 +1,4 @@
-package vanilla.witchtrial.global.common;
+package vanilla.witchtrial.global.common.constants;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

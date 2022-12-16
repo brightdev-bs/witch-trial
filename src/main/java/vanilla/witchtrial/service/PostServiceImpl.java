@@ -8,7 +8,7 @@ import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.dto.BoardDto;
 import vanilla.witchtrial.domain.dto.PostDto;
 import vanilla.witchtrial.domain.dto.type.PostType;
-import vanilla.witchtrial.global.common.ErrorCode;
+import vanilla.witchtrial.global.common.constants.ErrorCode;
 import vanilla.witchtrial.global.exception.NotFoundException;
 import vanilla.witchtrial.repository.PostRepository;
 
