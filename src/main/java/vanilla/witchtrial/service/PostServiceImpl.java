@@ -30,16 +30,18 @@ public class PostServiceImpl implements PostService {
     public PostDto.Response getPostDetail(Long postId) {
         Post post = postRepository.findByIdWithDsl(postId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POST_NOT_FOUND));
-        return PostDto.Response.toResponse(post);
+        return PostDto.Response.from(post);
     }
 
 
     @Transactional
     @Override
-    public void saveNewPost(PostDto.Request postDto) {
+    public PostDto.Response saveNewPost(PostDto.Request postDto) {
         Post post = Post.of(postDto.getTitle(), postDto.getContent()
                 , postDto.getHashtag(), Enum.valueOf(PostType.class, postDto.getPostType()));
         postRepository.save(post);
+
+        return PostDto.Response.from(post);
     }
 
     // Todo : 제대로 업데이트 되는지 테스트 작성할 것.
