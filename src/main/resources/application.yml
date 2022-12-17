@@ -32,6 +32,13 @@ spring:
     base-path: /api
     detection-strategy: annotated
 
+  devtools:
+    livereload:
+      enabled: true
+
+  thymeleaf3:
+    decoupled-logic: true
+
 ---
 
 spring:
