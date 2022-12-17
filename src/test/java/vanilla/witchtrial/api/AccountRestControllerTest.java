@@ -1,4 +1,4 @@
-package vanilla.witchtrial.controller;
+package vanilla.witchtrial.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-class AccountControllerTest {
+class AccountRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

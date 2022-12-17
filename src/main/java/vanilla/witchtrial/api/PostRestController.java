@@ -1,4 +1,4 @@
-package vanilla.witchtrial.controller;
+package vanilla.witchtrial.api;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import static vanilla.witchtrial.global.common.constants.Constants.RESPONSE_SUCC
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/board")
 @RestController
-public class PostController {
+public class PostRestController {
 
     private final PostService postService;
 

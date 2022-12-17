@@ -1,4 +1,4 @@
-package vanilla.witchtrial.controller;
+package vanilla.witchtrial.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @AutoConfigureMockMvc
 @SpringBootTest
-class PostControllerTest {
+class PostRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

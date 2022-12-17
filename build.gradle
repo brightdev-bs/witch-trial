@@ -24,6 +24,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.data:spring-data-rest-hal-explorer'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     // == 스프링 부트 3.0 이상 ==
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'

@@ -1,4 +1,4 @@
-package vanilla.witchtrial.controller;
+package vanilla.witchtrial.api;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import vanilla.witchtrial.service.AccountService;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class AccountController {
+public class AccountRestController {
 
     private final AccountService accountService;
 
