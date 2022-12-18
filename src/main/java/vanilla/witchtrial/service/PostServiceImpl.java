@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.dto.BoardDto;
 import vanilla.witchtrial.domain.dto.PostDto;
-import vanilla.witchtrial.domain.dto.type.PostType;
 import vanilla.witchtrial.global.common.constants.ErrorCode;
 import vanilla.witchtrial.global.exception.NotFoundException;
 import vanilla.witchtrial.repository.PostRepository;
@@ -38,7 +37,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto.Response saveNewPost(PostDto.Request postDto) {
         Post post = Post.of(postDto.getTitle(), postDto.getContent()
-                , postDto.getHashtag(), Enum.valueOf(PostType.class, postDto.getPostType()));
+                , postDto.getHashtag(), postDto.getPostType());
         postRepository.save(post);
 
         return PostDto.Response.from(post);

@@ -14,7 +14,6 @@ import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.dto.BoardDto;
 import vanilla.witchtrial.domain.dto.PostDto;
 import vanilla.witchtrial.domain.dto.type.BoardSearchType;
-import vanilla.witchtrial.domain.dto.type.PostType;
 import vanilla.witchtrial.global.exception.NotFoundException;
 import vanilla.witchtrial.repository.PostRepository;
 
@@ -57,7 +56,7 @@ class PostServiceTest {
     @Test
     void getPostDetailWithPostId() {
         // Given
-        Post post = Post.of("테스트", "본문", "#java", PostType.TRIAL);
+        Post post = Post.of("테스트", "본문", "#java", "TRIAL");
         given(postRepository.findByIdWithDsl(1L)).willReturn(Optional.of(post));
 
         // When
@@ -147,7 +146,7 @@ class PostServiceTest {
                 "title",
                 "content",
                 "#java",
-                PostType.TRIAL
+                "TRIAL"
         );
         ReflectionTestUtils.setField(post, "id", id);
 

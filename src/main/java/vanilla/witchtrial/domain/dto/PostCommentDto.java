@@ -8,8 +8,10 @@ import java.time.LocalDateTime;
 
 public class PostCommentDto {
 
+    @Builder
+    @Data
     public static class Request {
-
+        private String content;
     }
 
     @Builder

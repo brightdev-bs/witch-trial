@@ -50,8 +50,9 @@ public class Post extends AuditingFields {
         this.postType = postType;
     }
 
-    public static Post of(String title, String content, String hashtag, PostType postType) {
-        return new Post(title, content, hashtag, postType);
+    public static Post of(String title, String content, String hashtag, String postType) {
+        // Todo : 검증 로직
+        return new Post(title, content, hashtag, Enum.valueOf(PostType.class, postType));
     }
 
     public void updatePost(PostDto.UpdateRequest postDto) {
