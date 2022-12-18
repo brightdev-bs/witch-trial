@@ -2,8 +2,8 @@ package vanilla.witchtrial.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
-import vanilla.witchtrial.domain.dto.PostDto;
 import vanilla.witchtrial.domain.dto.type.PostType;
 
 import java.util.LinkedHashSet;
@@ -26,11 +26,11 @@ public class Post extends AuditingFields {
     private Long id;
 
     @Column(nullable = false, length = 255)
-    private String title;
+    @Setter private String title;
     @Column(nullable = false, length = 2000)
-    private String content;
+    @Setter private String content;
 
-    private String hashtag;
+    @Setter private String hashtag;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -53,12 +53,6 @@ public class Post extends AuditingFields {
     public static Post of(String title, String content, String hashtag, String postType) {
         // Todo : 검증 로직
         return new Post(title, content, hashtag, Enum.valueOf(PostType.class, postType));
-    }
-
-    public void updatePost(PostDto.UpdateRequest postDto) {
-        this.title = postDto.getTitle();
-        this.content = postDto.getContent();
-        this.hashtag = postDto.getHashtag();
     }
 
     @Override

@@ -17,5 +17,6 @@ public class PagingDto {
     public PagingDto(int page, int size) {
         this.page = page;
         this.size = size;
+        if(size == 0) this.size = 10;
     }
 }
