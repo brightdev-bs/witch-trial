@@ -1,5 +1,6 @@
 package vanilla.witchtrial.service;
 
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -7,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.dto.BoardDto;
 import vanilla.witchtrial.domain.dto.PostDto;
-import vanilla.witchtrial.domain.dto.type.PostType;
 import vanilla.witchtrial.global.common.constants.ErrorCode;
 import vanilla.witchtrial.global.exception.NotFoundException;
 import vanilla.witchtrial.repository.PostRepository;
@@ -37,8 +37,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     @Override
     public PostDto.Response saveNewPost(PostDto.Request postDto) {
-        Post post = Post.of(postDto.getTitle(), postDto.getContent()
-                , postDto.getHashtag(), Enum.valueOf(PostType.class, postDto.getPostType()));
+        Post post = PostDto.Request.toEntity(postDto);
         postRepository.save(post);
 
         return PostDto.Response.from(post);
@@ -48,7 +47,13 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto.Response updatePost(PostDto.UpdateRequest postDto) {
         Post post = postRepository.findByIdWithDsl(postDto.getPostId()).orElseThrow(() -> new NotFoundException(ErrorCode.POST_NOT_FOUND));
-        post.updatePost(postDto);
+        if(!StringUtils.isBlank(postDto.getTitle())) {
+            post.setTitle(postDto.getTitle());
+        }
+        if(!StringUtils.isBlank(postDto.getContent())) {
+            post.setContent(postDto.getContent());
+        }
+        post.setHashtag(postDto.getHashtag());
 
         return PostDto.Response.from(post);
     }

@@ -10,7 +10,9 @@ import vanilla.witchtrial.domain.dto.type.PostType;
 import vanilla.witchtrial.global.validation.EnumValid;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PostDto {
 
@@ -32,14 +34,21 @@ public class PostDto {
         @NotNull(message = "post-type is necessary")
         private String postType;
         private String createdBy;
+
+        public static Post toEntity(Request dto) {
+            return Post.of(dto.getTitle(), dto.getContent(), dto.getHashtag(), dto.getPostType());
+        }
     }
 
     @Builder
     @Data
     public static class UpdateRequest {
         private Long postId;
+        @NotNull
         private String title;
+        @NotNull
         private String content;
+        @Nullable
         private String hashtag;
     }
 
@@ -53,7 +62,7 @@ public class PostDto {
         private String createdBy;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-        private List<PostCommentDto.Response> comments;
+        private Set<PostCommentDto.Response> comments;
 
         public static Response from(Post post) {
             return Response.builder()
@@ -64,8 +73,11 @@ public class PostDto {
                     .createdBy(post.getCreatedBy())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
-                    .comments(post.getPostComments().stream().map(PostCommentDto.Response::from).toList())
+                    .comments(post.getPostComments().stream()
+                            .map(PostCommentDto.Response::from)
+                            .collect(Collectors.toCollection(LinkedHashSet::new)))
                     .build();
         }
+
     }
 }

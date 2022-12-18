@@ -29,6 +29,7 @@ public class BoardDto {
     @Builder
     @Data
     public static class Response {
+        private Long id;
         private String title;
         private String content;
         private String hashtag;
@@ -38,6 +39,7 @@ public class BoardDto {
 
         public static Response from(Post post) {
             return Response.builder()
+                    .id(post.getId())
                     .title(post.getTitle())
                     .content(post.getTitle())
                     .hashtag(post.getHashtag())
