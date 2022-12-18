@@ -1,54 +1,30 @@
 package vanilla.witchtrial.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import vanilla.witchtrial.domain.dto.BoardDto;
-import vanilla.witchtrial.domain.dto.PostDto;
-import vanilla.witchtrial.global.response.ApiResponse;
-import vanilla.witchtrial.service.PostService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-import static vanilla.witchtrial.global.common.constants.Constants.RESPONSE_SUCCESS;
-
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/board")
-@RestController
+@RequestMapping("/board")
+@Controller
 public class PostController {
 
-    private final PostService postService;
-
     @GetMapping
-    public ApiResponse boardList(@RequestBody @Valid BoardDto.Request request) {
-        List<BoardDto.Response> boardList = postService.getBoardList(request, PageRequest.of(request.getPage(), request.getSize()));
-        return ApiResponse.of(HttpStatus.OK.toString(), boardList);
+    public String getBoardListView(ModelMap map) {
+        map.addAttribute("boardList", List.of());
+        return "board/index";
     }
 
-    @GetMapping("{postId}")
-    public ApiResponse getPostDetail(@PathVariable Long postId) {
-        PostDto.Response postDetail = postService.getPostDetail(postId);
-        return ApiResponse.of(HttpStatus.OK.toString(), postDetail);
+    @GetMapping("/{postId}")
+    public String post(@PathVariable Long postId, ModelMap map) {
+        map.addAttribute("post", "post"); // Todo : 실제 데이터 넣어줘야 함.
+        return "board/postDetail";
     }
 
-    @PostMapping
-    public ApiResponse savePost(@RequestBody @Valid PostDto.Request request) {
-        PostDto.Response response = postService.saveNewPost(request);
-        return ApiResponse.of(HttpStatus.OK.toString(), response);
-    }
 
-    @PatchMapping("/{postId}")
-    public ApiResponse editPost(@PathVariable Long postId, @RequestBody @Valid PostDto.UpdateRequest request) {
-        request.setPostId(postId);
-        PostDto.Response response = postService.updatePost(request);
-        return ApiResponse.of(HttpStatus.OK.toString(), response);
-    }
-
-    @DeleteMapping("/{postId}")
-    public ApiResponse deletePost(@PathVariable Long postId) {
-        postService.deletePost(postId);
-        return ApiResponse.of(HttpStatus.OK.toString(), RESPONSE_SUCCESS);
-    }
 }

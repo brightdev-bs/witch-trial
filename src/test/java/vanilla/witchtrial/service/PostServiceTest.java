@@ -58,13 +58,13 @@ class PostServiceTest {
     void getPostDetailWithPostId() {
         // Given
         Post post = Post.of("테스트", "본문", "#java", PostType.TRIAL);
-        given(postRepository.findById(1L)).willReturn(Optional.of(post));
+        given(postRepository.findByIdWithDsl(1L)).willReturn(Optional.of(post));
 
         // When
         sut.getPostDetail(1L);
 
         // Then
-        then(postRepository).should().findById(1L);
+        then(postRepository).should().findByIdWithDsl(1L);
     }
 
     @DisplayName("게시글 정보를 입력하면, 게시글을 생성한다.")
@@ -128,7 +128,7 @@ class PostServiceTest {
     void deletePost() {
         Long postId = 1L;
         Post post = createPost(postId);
-        when(postRepository.findById(postId)).thenReturn(Optional.of(post));
+        when(postRepository.findByIdWithDsl(postId)).thenReturn(Optional.of(post));
 
         sut.deletePost(1L);
 
