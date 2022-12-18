@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import vanilla.witchtrial.config.SecurityConfig;
@@ -49,7 +48,7 @@ class PostControllerTest {
                 .andExpect(view().name("board/index"))
                 .andExpect(model().attributeExists("boardList"));
 
-        then(postService).should().getBoardList(any(BoardDto.Request.class), any(Pageable.class));
+        then(postService).should().getBoardList(any(BoardDto.Request.class));
     }
 
     @DisplayName("[view][GET] 게시글 상세 페이지")

@@ -4,7 +4,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.EntityManager;
-import org.springframework.data.domain.Pageable;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.dto.BoardDto;
 import vanilla.witchtrial.domain.dto.type.BoardSearchType;
@@ -15,6 +14,7 @@ import java.util.Optional;
 
 import static vanilla.witchtrial.domain.QPost.post;
 import static vanilla.witchtrial.domain.QPostComment.postComment;
+import static vanilla.witchtrial.global.common.constants.Constants.DEFAULT_PAGE_SIZE;
 import static vanilla.witchtrial.global.common.constants.ErrorCode.INVALID_PARAMS;
 
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -26,12 +26,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public List<Post> findBoardList(BoardDto.Request request, Pageable pageable) {
+    public List<Post> findBoardList(BoardDto.Request request) {
         return queryFactory
                 .selectFrom(post)
                 .where(getSearchOption(request))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .offset(request.getPage() * DEFAULT_PAGE_SIZE)
+                .limit(request.getSize())
                 .fetch();
     }
 
@@ -70,6 +70,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
 
         return null;
+    }
+
+    @Override
+    public long countPosts(BoardDto.Request request) {
+        return queryFactory
+                .selectFrom(post)
+                .where(getSearchOption(request))
+                .stream().count();
     }
 
     @Override

@@ -13,4 +13,25 @@
             </attr>
         </attr>
     </attr>
+
+    <attr sel="#pagination">
+        <attr sel="li[0]/a"
+              th:text="'<'"
+              th:href="@{/board(page=${currentPage - 1})}"
+              th:class="'page-link' + (${currentPage} <= 0 ? ' disabled' : '')"
+        />
+        <attr sel="li[1]" th:class="page-item" th:each="page: ${#numbers.sequence(startPage - 1, endPage - 1)}">
+            <attr sel="a"
+                  th:text="${page + 1}"
+                  th:href="@{/board(page=${page})}"
+                  th:class="'page-link' + (${page} == ${currentPage} ? ' disabled' : '')"
+            />
+        </attr>
+        <attr sel="li[2]/a"
+              th:text="'>'"
+              th:href="@{/board(page=${currentPage + 1})}"
+              th:class="'page-link' + (${currentPage} >= ${totalCount / 10} ? ' disabled' : '')"
+        />
+    </attr>
+
 </thlogic>
