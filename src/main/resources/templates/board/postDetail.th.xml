@@ -2,4 +2,23 @@
 <thlogic>
     <attr sel="#header" th:replace="header :: header"></attr>
     <attr sel="#footer" th:replace="footer :: footer"></attr>
+
+
+    <attr sel="#post-main" th:object="${postDetail}">
+        <attr sel="#post-header/h1" th:text="*{title}"/>
+        <attr sel="#username" th:text="*{createdBy}"/>
+<!--        <attr sel="#email" th:text="*{email}"/>-->
+        <attr sel="#created-at/time" th:datetime="*{createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd')}" />
+        <attr sel="#hashtag" th:text="*{hashtag}"/>
+        <attr sel="#post-content" th:text="*{content}"/>
+
+        <attr sel="#post-comments" th:remove="all-but-first">
+            <attr sel="li[0]" th:each="postComment : ${postDetail.getComments()}">
+                <attr sel="div/strong" th:text="${postComment.createdBy}"/>
+                <attr sel="div/small/time" th:text="${postComment.createdBy}"/>
+                <attr sel="div/p" th:text="${postComment.content}"/>
+            </attr>
+        </attr>
+    </attr>
+
 </thlogic>
