@@ -2,7 +2,6 @@ package vanilla.witchtrial.service;
 
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vanilla.witchtrial.domain.Post;
@@ -22,8 +21,13 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
 
     @Override
-    public List<BoardDto.Response> getBoardList(BoardDto.Request request, Pageable pageable) {
-        return postRepository.findBoardList(request, pageable).stream().map(BoardDto.Response::from).toList();
+    public List<BoardDto.Response> getBoardList(BoardDto.Request request) {
+        return postRepository.findBoardList(request).stream().map(BoardDto.Response::from).toList();
+    }
+
+    @Override
+    public long countPosts(BoardDto.Request request) {
+        return postRepository.countPosts(request);
     }
 
     @Override

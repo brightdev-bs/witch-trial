@@ -2,7 +2,6 @@ package vanilla.witchtrial.api;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import vanilla.witchtrial.domain.dto.BoardDto;
@@ -23,7 +22,7 @@ public class PostRestController {
 
     @GetMapping
     public ApiResponse boardList(@RequestBody @Valid BoardDto.Request request) {
-        List<BoardDto.Response> boardList = postService.getBoardList(request, PageRequest.of(request.getPage(), request.getSize()));
+        List<BoardDto.Response> boardList = postService.getBoardList(request);
         return ApiResponse.of(HttpStatus.OK.toString(), boardList);
     }
 

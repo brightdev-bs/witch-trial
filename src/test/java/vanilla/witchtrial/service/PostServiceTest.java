@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 import vanilla.witchtrial.domain.Post;
@@ -41,11 +40,12 @@ class PostServiceTest {
         BoardDto.Request request = BoardDto.Request.builder()
                 .searchType(BoardSearchType.TITLE.name())
                 .searchValue("search keyword")
+                .page(0)
+                .size(10)
                 .build();
-        Pageable pageable = Pageable.ofSize(10);
 
         // When
-        List<BoardDto.Response> boardList = sut.getBoardList(request, pageable);
+        List<BoardDto.Response> boardList = sut.getBoardList(request);
 
         // Then
         assertThat(boardList).isNotNull();
