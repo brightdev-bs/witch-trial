@@ -2,6 +2,7 @@ package vanilla.witchtrial.domain.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.PostComment;
 
@@ -13,6 +14,7 @@ public class PostCommentDto {
     @Data
     public static class Request {
         private Long postId;
+        @Length(max = 500)
         private String content;
 
         public static PostComment toEntity(Post post, String content) {
@@ -23,7 +25,7 @@ public class PostCommentDto {
     @Builder
     @Data
     public static class Response {
-        private Long postId;
+        private Long commentId;
         private String content;
         private String createdBy;
         private LocalDateTime createdAt;
@@ -31,6 +33,7 @@ public class PostCommentDto {
 
         public static Response from(PostComment entity) {
             return Response.builder()
+                    .commentId(entity.getId())
                     .content(entity.getContent())
                     .createdBy(entity.getCreatedBy())
                     .createdAt(entity.getCreatedAt())

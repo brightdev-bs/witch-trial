@@ -48,11 +48,11 @@
 
         <div class="row g-5">
             <section>
-                <form class="row g-3 comment-form">
-                    <input type="hidden" class="article-id">
+                <form id="content-form" method="post" class="row g-3 comment-form">
+                    <input type="hidden" class="post-id">
                     <div class="col-md-9 col-lg-8">
                         <label for="comment-textbox" hidden>댓글</label>
-                        <textarea class="form-control comment-textbox" id="comment-textbox" placeholder="댓글 쓰기.." rows="3" required></textarea>
+                        <textarea class="form-control comment-textbox" id="comment-textbox" placeholder="댓글 쓰기.." maxlength="500" rows="3" required></textarea>
                     </div>
                     <div class="col-md-3 col-lg-4">
                         <label for="comment-submit" hidden>댓글 쓰기</label>
@@ -62,7 +62,7 @@
 
                 <ul id="post-comments" class="row col-md-10 col-lg-8 pt-3">
                     <li class="parent-comment">
-                        <form class="comment-delete-form">
+                        <form class="comment-form">
                             <input type="hidden" class="article-id">
                             <div class="row">
                                 <div class="col-md-10 col-lg-9">
@@ -79,40 +79,6 @@
                                 </div>
                             </div>
                         </form>
-
-                        <ul class="row me-0">
-                            <li class="child-comment">
-                                <form class="comment-delete-form">
-                                    <input type="hidden" class="article-id">
-                                    <div class="row">
-                                        <div class="col-md-10 col-lg-9">
-                                            <strong>Vanille</strong>
-                                            <small><time>2022-01-01</time></small>
-                                            <p class="mb-1">
-                                                Contrary to popular belief, Lorem Ipsum is not simply random text. <br>
-                                                It has roots in a piece of classical Latin literature from 45 BC, <br>
-                                                making it over 2000 years old.
-                                            </p>
-                                        </div>
-                                        <div class="col-2 mb-3 align-self-center">
-                                            <button type="submit" class="btn btn-outline-danger">삭제</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </li>
-                        </ul>
-
-                        <div class="row">
-                            <details class="col-md-10 col-lg-9 mb-4">
-                                <summary>댓글 달기</summary>
-                                <form class="comment-form">
-                                    <input type="hidden" class="article-id">
-                                    <input type="hidden" class="parent-comment-id">
-                                    <textarea class="form-control comment-textbox" placeholder="댓글 쓰기.." rows="2" required></textarea>
-                                    <button class="form-control btn btn-primary mt-2" type="submit">쓰기</button>
-                                </form>
-                            </details>
-                        </div>
                     </li>
                 </ul>
             </section>

@@ -78,7 +78,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Optional<Post> findByIdWithDsl(Long id) {
         return Optional.ofNullable(queryFactory.selectFrom(post)
-                .join(post.postComments, postComment).fetchJoin()
+                .leftJoin(post.postComments, postComment).fetchJoin()
                 .where(post.id.eq(id))
                 .fetchOne());
     }

@@ -12,13 +12,22 @@
         <attr sel="#hashtag" th:text="*{hashtag}"/>
         <attr sel="#post-content" th:text="*{content}"/>
 
+        <attr sel=".post-id" th:name="postId" th:value="*{id}" />
+        <attr sel="#content-form" th:action="@{/board/{postId}/comments(postId = ${postDetail.id})}" th:method="post">
+            <attr sel="#comment-textbox" th:name="content" />
+        </attr>
+
         <attr sel="#post-comments" th:remove="all-but-first">
             <attr sel="li[0]" th:each="postComment : ${postDetail.getComments()}">
-                <attr sel="div/strong" th:text="${postComment.createdBy}"/>
-                <attr sel="div/small/time" th:text="${postComment.createdBy}"/>
-                <attr sel="div/p" th:text="${postComment.content}"/>
+                <attr sel="form"
+                      th:action="@{/board/{postId}/comments/{commentId}(postId = ${postDetail.id}, commentId = ${postComment.commentId})}"
+                      th:method="post"
+                >
+                    <attr sel="div/strong" th:text="${postComment.createdBy}"/>
+                    <attr sel="div/small/time" th:text="${postComment.createdBy}"/>
+                    <attr sel="div/p" th:text="${postComment.content}"/>
+                </attr>
             </attr>
         </attr>
     </attr>
-
 </thlogic>
