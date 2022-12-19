@@ -2,7 +2,6 @@ package vanilla.witchtrial.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.EntityManager;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.dto.BoardDto;
@@ -15,7 +14,6 @@ import java.util.Optional;
 import static vanilla.witchtrial.domain.QPost.post;
 import static vanilla.witchtrial.domain.QPostComment.postComment;
 import static vanilla.witchtrial.global.common.constants.Constants.DEFAULT_PAGE_SIZE;
-import static vanilla.witchtrial.global.common.constants.ErrorCode.INVALID_PARAMS;
 
 public class PostRepositoryImpl implements PostRepositoryCustom {
 
@@ -36,7 +34,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private BooleanExpression getSearchOption(BoardDto.Request request) {
-        if(request != null && request.getSearchType() != null) {
+        if(request != null && request.getSearchType() != null && request.getSearchValue() != null && !request.getSearchValue().isBlank()) {
 
             if(request.getSearchType().equals(BoardSearchType.TITLE.name())) {
                 return post.title.contains(request.getSearchValue());
@@ -44,14 +42,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
             if(request.getSearchType().equals(BoardSearchType.POST_TYPE.name())) {
                 if(request.getSearchValue() == null || request.getSearchValue().isBlank()) return null;
-                return post.postType.eq(Enum.valueOf(PostType.class, request.getSearchValue()));
-            }
-
-            if(request.getSearchType().equals(BoardSearchType.ID.name())) {
-                if(!StringUtils.isBlank(request.getSearchValue()) && request.getSearchValue().chars().allMatch(Character::isDigit))
-                    return post.id.eq(Long.valueOf(request.getSearchValue()));
-                else
-                    throw new IllegalArgumentException(INVALID_PARAMS.getMessage());
+                return post.postType.eq(Enum.valueOf(PostType.class, request.getSearchValue().toUpperCase()));
             }
 
             if(request.getSearchType().equals(BoardSearchType.CONTENT.name())) {
@@ -59,7 +50,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             }
 
             if(request.getSearchType().equals(BoardSearchType.HASHTAG.name())) {
-                return post.hashtag.contains("#" + request.getSearchValue()); // Todo : "#"넣고 검색했을 때 ##이 될 수 있음.
+                String searchValue = request.getSearchValue();
+                if(searchValue.startsWith("#"))
+                    return post.hashtag.contains(request.getSearchValue());
+                else
+                    return post.hashtag.contains("#" + request.getSearchValue());
             }
 
             if(request.getSearchType().equals(BoardSearchType.NICKNAME.name())) {
