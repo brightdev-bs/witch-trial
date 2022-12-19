@@ -55,6 +55,7 @@ public class PostDto {
     @Builder
     @Data
     public static class Response {
+        private Long id;
         private String title;
         private String content;
         private String hashtag;
@@ -66,6 +67,7 @@ public class PostDto {
 
         public static Response from(Post post) {
             return Response.builder()
+                    .id(post.getId())
                     .title(post.getTitle())
                     .content(post.getContent())
                     .hashtag(post.getHashtag())

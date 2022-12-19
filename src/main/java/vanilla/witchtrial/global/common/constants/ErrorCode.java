@@ -21,6 +21,7 @@ public enum ErrorCode {
     /* Common Error */
     INVALID_PARAMS(HttpStatus.BAD_REQUEST, "Invalid Params"),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "Incorrect Password"),
+    SIZE_LIMIT_EXCEEDED(HttpStatus.BAD_REQUEST, "Size limit exceeded"),
 
     ;
 
