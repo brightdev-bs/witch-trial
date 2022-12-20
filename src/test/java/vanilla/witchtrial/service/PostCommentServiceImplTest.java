@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.PostComment;
-import vanilla.witchtrial.domain.dto.PostCommentDto;
+import vanilla.witchtrial.dto.PostCommentDto;
 import vanilla.witchtrial.repository.PostCommentRepository;
 import vanilla.witchtrial.repository.PostRepository;
 

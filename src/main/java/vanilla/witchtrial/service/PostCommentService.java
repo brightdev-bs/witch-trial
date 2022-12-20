@@ -1,7 +1,7 @@
 package vanilla.witchtrial.service;
 
 import org.springframework.web.bind.annotation.RequestBody;
-import vanilla.witchtrial.domain.dto.PostCommentDto;
+import vanilla.witchtrial.dto.PostCommentDto;
 
 public interface PostCommentService {
 

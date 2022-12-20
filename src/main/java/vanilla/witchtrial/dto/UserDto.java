@@ -1,4 +1,4 @@
-package vanilla.witchtrial.domain.dto;
+package vanilla.witchtrial.dto;
 
 import vanilla.witchtrial.domain.User;
 

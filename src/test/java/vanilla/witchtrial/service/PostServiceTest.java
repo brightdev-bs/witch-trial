@@ -10,9 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 import vanilla.witchtrial.domain.Post;
-import vanilla.witchtrial.domain.dto.BoardDto;
-import vanilla.witchtrial.domain.dto.PostDto;
-import vanilla.witchtrial.domain.dto.type.BoardSearchType;
+import vanilla.witchtrial.dto.BoardDto;
+import vanilla.witchtrial.dto.PostDto;
+import vanilla.witchtrial.dto.type.BoardSearchType;
 import vanilla.witchtrial.global.exception.NotFoundException;
 import vanilla.witchtrial.repository.PostRepository;
 

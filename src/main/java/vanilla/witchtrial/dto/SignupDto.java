@@ -1,4 +1,4 @@
-package vanilla.witchtrial.domain.dto;
+package vanilla.witchtrial.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;

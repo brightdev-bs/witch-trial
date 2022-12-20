@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import vanilla.witchtrial.domain.dto.PostCommentDto;
+import vanilla.witchtrial.dto.PostCommentDto;
 import vanilla.witchtrial.service.PostCommentService;
 
 @RequiredArgsConstructor

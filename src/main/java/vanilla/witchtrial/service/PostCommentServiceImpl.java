@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.PostComment;
-import vanilla.witchtrial.domain.dto.PostCommentDto;
+import vanilla.witchtrial.dto.PostCommentDto;
 import vanilla.witchtrial.global.common.constants.ErrorCode;
 import vanilla.witchtrial.global.exception.NotFoundException;
 import vanilla.witchtrial.repository.PostCommentRepository;

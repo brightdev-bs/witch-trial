@@ -1,8 +1,8 @@
 package vanilla.witchtrial.service;
 
-import vanilla.witchtrial.domain.dto.LoginDto;
-import vanilla.witchtrial.domain.dto.SignupDto;
-import vanilla.witchtrial.domain.dto.UserDto;
+import vanilla.witchtrial.dto.LoginDto;
+import vanilla.witchtrial.dto.SignupDto;
+import vanilla.witchtrial.dto.UserDto;
 
 public interface AccountService {
 

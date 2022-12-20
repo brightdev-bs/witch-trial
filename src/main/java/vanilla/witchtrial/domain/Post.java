@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import vanilla.witchtrial.domain.dto.type.PostType;
+import vanilla.witchtrial.dto.type.PostType;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
