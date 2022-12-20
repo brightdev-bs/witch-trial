@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import vanilla.witchtrial.domain.dto.LoginDto;
-import vanilla.witchtrial.domain.dto.SignupDto;
-import vanilla.witchtrial.domain.dto.UserDto;
+import vanilla.witchtrial.dto.LoginDto;
+import vanilla.witchtrial.dto.SignupDto;
+import vanilla.witchtrial.dto.UserDto;
 import vanilla.witchtrial.global.response.ApiResponse;
 import vanilla.witchtrial.service.AccountService;
 

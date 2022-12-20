@@ -8,10 +8,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import vanilla.witchtrial.domain.dto.BoardDto;
-import vanilla.witchtrial.domain.dto.PostDto;
-import vanilla.witchtrial.domain.dto.type.PostSortType;
-import vanilla.witchtrial.domain.dto.type.BoardSearchType;
+import vanilla.witchtrial.dto.BoardDto;
+import vanilla.witchtrial.dto.PostDto;
+import vanilla.witchtrial.dto.type.PostSortType;
+import vanilla.witchtrial.dto.type.BoardSearchType;
 import vanilla.witchtrial.service.PostService;
 
 import java.util.List;

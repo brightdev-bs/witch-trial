@@ -11,8 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import vanilla.witchtrial.config.TestSecurityConfig;
 import vanilla.witchtrial.domain.Post;
-import vanilla.witchtrial.domain.dto.BoardDto;
-import vanilla.witchtrial.domain.dto.PostDto;
+import vanilla.witchtrial.dto.BoardDto;
+import vanilla.witchtrial.dto.PostDto;
 import vanilla.witchtrial.service.PostService;
 
 import static org.mockito.ArgumentMatchers.any;

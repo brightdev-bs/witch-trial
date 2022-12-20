@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import vanilla.witchtrial.domain.dto.BoardDto;
-import vanilla.witchtrial.domain.dto.PostDto;
+import vanilla.witchtrial.dto.BoardDto;
+import vanilla.witchtrial.dto.PostDto;
 import vanilla.witchtrial.global.response.ApiResponse;
 import vanilla.witchtrial.service.PostService;
 

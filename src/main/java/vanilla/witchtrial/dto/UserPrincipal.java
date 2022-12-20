@@ -1,4 +1,4 @@
-package vanilla.witchtrial.domain.dto;
+package vanilla.witchtrial.dto;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

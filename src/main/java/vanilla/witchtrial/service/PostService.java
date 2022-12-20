@@ -1,7 +1,7 @@
 package vanilla.witchtrial.service;
 
-import vanilla.witchtrial.domain.dto.BoardDto;
-import vanilla.witchtrial.domain.dto.PostDto;
+import vanilla.witchtrial.dto.BoardDto;
+import vanilla.witchtrial.dto.PostDto;
 
 import java.util.List;
 

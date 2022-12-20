@@ -1,4 +1,4 @@
-package vanilla.witchtrial.domain.dto;
+package vanilla.witchtrial.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 import vanilla.witchtrial.domain.Post;
-import vanilla.witchtrial.domain.dto.type.PostType;
+import vanilla.witchtrial.dto.type.PostType;
 import vanilla.witchtrial.global.validation.EnumValid;
 
 import java.time.LocalDateTime;

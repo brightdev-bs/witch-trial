@@ -1,4 +1,4 @@
-package vanilla.witchtrial.domain.dto.type;
+package vanilla.witchtrial.dto.type;
 
 import lombok.Getter;
 

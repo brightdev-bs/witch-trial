@@ -6,10 +6,10 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import vanilla.witchtrial.domain.Post;
-import vanilla.witchtrial.domain.dto.BoardDto;
-import vanilla.witchtrial.domain.dto.type.BoardSearchType;
-import vanilla.witchtrial.domain.dto.type.PostSortType;
-import vanilla.witchtrial.domain.dto.type.PostType;
+import vanilla.witchtrial.dto.BoardDto;
+import vanilla.witchtrial.dto.type.BoardSearchType;
+import vanilla.witchtrial.dto.type.PostSortType;
+import vanilla.witchtrial.dto.type.PostType;
 
 import java.util.List;
 import java.util.Optional;

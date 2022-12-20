@@ -1,7 +1,7 @@
 package vanilla.witchtrial.repository;
 
 import vanilla.witchtrial.domain.Post;
-import vanilla.witchtrial.domain.dto.BoardDto;
+import vanilla.witchtrial.dto.BoardDto;
 
 import java.util.List;
 import java.util.Optional;
