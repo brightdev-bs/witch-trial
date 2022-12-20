@@ -31,6 +31,8 @@ public class Post extends AuditingFields {
     @Setter private String content;
 
     @Setter private String hashtag;
+    @Setter private int view;
+    @Setter private int liked;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -48,6 +50,8 @@ public class Post extends AuditingFields {
         this.content = content;
         this.hashtag = hashtag;
         this.postType = postType;
+        this.view = 0;
+        this.liked = 0;
     }
 
     public static Post of(String title, String content, String hashtag, String postType) {

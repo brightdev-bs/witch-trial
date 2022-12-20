@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import vanilla.witchtrial.domain.dto.BoardDto;
 import vanilla.witchtrial.domain.dto.PostDto;
+import vanilla.witchtrial.domain.dto.type.PostSortType;
 import vanilla.witchtrial.domain.dto.type.BoardSearchType;
 import vanilla.witchtrial.service.PostService;
 
@@ -34,6 +35,7 @@ public class PostController {
         map.addAttribute("startPage", request.getStartPage(request.getPage()));
         map.addAttribute("endPage", request.getEndPage(request.getPage(), totalCount));
         map.addAttribute("totalCount", totalCount);
+        map.addAttribute("postSortTypes", PostSortType.values());
         map.addAttribute("searchTypes", BoardSearchType.values());
         return "board/index";
     }

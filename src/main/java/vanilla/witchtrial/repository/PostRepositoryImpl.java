@@ -1,11 +1,14 @@
 package vanilla.witchtrial.repository;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.dto.BoardDto;
 import vanilla.witchtrial.domain.dto.type.BoardSearchType;
+import vanilla.witchtrial.domain.dto.type.PostSortType;
 import vanilla.witchtrial.domain.dto.type.PostType;
 
 import java.util.List;
@@ -30,6 +33,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .where(getSearchOption(request))
                 .offset(request.getPage() * DEFAULT_PAGE_SIZE)
                 .limit(request.getSize())
+                .orderBy(getSortOption(request))
                 .fetch();
     }
 
@@ -63,8 +67,25 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         }
 
-
         return null;
+    }
+
+    private OrderSpecifier<?> getSortOption(BoardDto.Request request) {
+        if(request != null && request.getSortType() != null && !request.getSortType().isBlank()) {
+            String sortType = request.getSortType().toUpperCase();
+            if(sortType.equals(PostSortType.RECENT.name())) {
+                return new OrderSpecifier<>(Order.ASC, post.createdAt);
+            }
+
+            if(sortType.equals(PostSortType.VIEW.name())) {
+                return new OrderSpecifier<>(Order.ASC, post.view);
+            }
+
+            if(sortType.equals(PostSortType.LIKED.name())) {
+                return new OrderSpecifier<>(Order.ASC, post.liked);
+            }
+        }
+        return new OrderSpecifier<>(Order.ASC, post.createdAt);
     }
 
     @Override
