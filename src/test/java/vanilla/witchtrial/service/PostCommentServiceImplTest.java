@@ -1,6 +1,5 @@
 package vanilla.witchtrial.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +12,6 @@ import vanilla.witchtrial.domain.dto.PostCommentDto;
 import vanilla.witchtrial.repository.PostCommentRepository;
 import vanilla.witchtrial.repository.PostRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -32,33 +30,17 @@ class PostCommentServiceImplTest {
     @Mock
     private PostRepository postRepository;
 
-    @DisplayName("게시글 ID로 조회하면, 해당 댓글 리스트를 조회한다.")
+    @DisplayName("댓글을 입력하면, 댓글을 저장한다.")
     @Test
-    void getPostComments() {
+    void savePostComment()  {
         // given
-        Long postId = 1L;
-        Optional<Post> of = Optional.of(Post.of("title", "content", "#java", "TRIAL"));
-        given(postRepository.findById(postId)).willReturn(of);
-
-        // when
-        List<PostCommentDto.Response> postComments = sut.getPostComments(postId);
-
-        // then
-        Assertions.assertThat(postComments).isNotNull();
-        then(postRepository).should().findById(postId);
-    }
-
-    @DisplayName("게시글 정보를 입력하면, 댓글을 저장한다.")
-    @Test
-    void savePostComment() {
-        // given
+        given(postRepository.findByIdWithDsl(1L)).willReturn(Optional.of((Post.of("t", "c", "#t", "TRIAL"))));
         given(postCommentRepository.save(any(PostComment.class))).willReturn(null);
 
         // when
-        sut.savePostComment(PostCommentDto.Request.builder().content("content").build());
+        sut.savePostComment(PostCommentDto.Request.builder().postId(1L).content("content").build());
 
         // then
         then(postCommentRepository).should().save(any(PostComment.class));
     }
-
 }

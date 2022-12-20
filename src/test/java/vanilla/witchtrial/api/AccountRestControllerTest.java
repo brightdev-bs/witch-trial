@@ -1,6 +1,5 @@
 package vanilla.witchtrial.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import vanilla.witchtrial.domain.dto.SignupDto;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,7 +35,9 @@ class AccountRestControllerTest {
 
         mockMvc.perform(post("/api/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(signupDto)))
+                        .content(objectMapper.writeValueAsBytes(signupDto))
+                        .with(csrf())
+                )
                 .andExpect(status().is2xxSuccessful());
     }
 

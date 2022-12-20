@@ -41,9 +41,10 @@ public class AccountServiceImpl implements AccountService {
             new InvalidPasswordException(INVALID_PASSWORD);
         }
 
-        return UserDto.builder()
-                .email(user.getEmail())
-                .username(user.getUsername())
-                .build();
+        return UserDto.of(
+                        user.getEmail(),
+                        user.getPassword(),
+                        user.getUsername()
+                );
     }
 }

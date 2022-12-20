@@ -21,6 +21,17 @@
         searchType=${param.searchType},
         searchValue=${param.searchValue}
     )}"/>
+    
+    <!-- 셀렉트 박스 -->
+    <attr sel="#search-type" th:remove="all-but-first">
+        <attr sel="option[0]"
+              th:each="searchType : ${searchTypes}"
+              th:value="${searchType.name}"
+              th:text="${searchType.description}"
+              th:selected="${param.searchType != null && (param.searchType.toString == searchType.name)}"
+        />
+    </attr>
+    <attr sel="#search-value" th:value="${param.searchValue}"/>
 
     <attr sel="#post-table">
         <attr sel="tbody" th:remove="all-but-first">
@@ -36,19 +47,19 @@
     <attr sel="#pagination">
         <attr sel="li[0]/a"
               th:text="'<'"
-              th:href="@{/board(page=${currentPage - 1})}"
+              th:href="@{/board(page=${currentPage - 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
               th:class="'page-link' + (${currentPage} <= 0 ? ' disabled' : '')"
         />
         <attr sel="li[1]" th:class="page-item" th:each="page: ${#numbers.sequence(startPage - 1, endPage - 1)}">
             <attr sel="a"
                   th:text="${page + 1}"
-                  th:href="@{/board(page=${page})}"
+                  th:href="@{/board(page=${page}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
                   th:class="'page-link' + (${page} == ${currentPage} ? ' disabled' : '')"
             />
         </attr>
         <attr sel="li[2]/a"
               th:text="'>'"
-              th:href="@{/board(page=${currentPage + 1})}"
+              th:href="@{/board(page=${currentPage + 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
               th:class="'page-link' + (${currentPage} >= ${totalCount / 10} ? ' disabled' : '')"
         />
     </attr>

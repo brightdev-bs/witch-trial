@@ -3,6 +3,10 @@ package vanilla.witchtrial.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Getter
 @ToString
@@ -10,8 +14,9 @@ import lombok.ToString;
         @Index(columnList = "email"),
         @Index(columnList = "username")
 })
+@EntityListeners(AuditingEntityListener.class)
 @Entity
-public class User extends AuditingFields {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +30,9 @@ public class User extends AuditingFields {
 
     @Column(nullable = false)
     private String password;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
 
     protected User() {
     }
