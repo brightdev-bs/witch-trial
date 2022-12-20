@@ -202,3 +202,5 @@ insert into post_comment (id, post_id, content, created_at, created_by, modified
 insert into post_comment (id, post_id, content, created_at, created_by, modified_at, modified_by) values (99, 99, 'Aliquam erat volutpat. In congue.', '2022-05-24 02:32:25', 'Fredrika', '2022-06-01 21:01:18', 'Inness');
 insert into post_comment (id, post_id, content, created_at, created_by, modified_at, modified_by) values (100, 100, 'Nulla justo.', '2021-12-22 20:41:35', 'Lida', '2022-03-20 21:04:05', 'Janeva');
 insert into post_comment (id, post_id, content, created_at, created_by, modified_at, modified_by) values (101, 1, 'Nulla justo.', '2021-12-22 20:41:35', 'Lida', '2022-03-20 21:04:05', 'Janeva');
+
+insert into user(id, email, password, username) values(1, 'vanille@gmail.com', '{noop}pw', 'vanille')

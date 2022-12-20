@@ -6,11 +6,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.PostComment;
 import vanilla.witchtrial.domain.dto.PostCommentDto;
 import vanilla.witchtrial.repository.PostCommentRepository;
+import vanilla.witchtrial.repository.PostRepository;
 
-import javax.naming.SizeLimitExceededException;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -25,31 +27,20 @@ class PostCommentServiceImplTest {
 
     @Mock
     private PostCommentRepository postCommentRepository;
+    @Mock
+    private PostRepository postRepository;
 
     @DisplayName("댓글을 입력하면, 댓글을 저장한다.")
     @Test
-    void savePostComment() throws SizeLimitExceededException {
+    void savePostComment()  {
         // given
+        given(postRepository.findByIdWithDsl(1L)).willReturn(Optional.of((Post.of("t", "c", "#t", "TRIAL"))));
         given(postCommentRepository.save(any(PostComment.class))).willReturn(null);
 
         // when
-        sut.savePostComment(PostCommentDto.Request.builder().content("content").build());
+        sut.savePostComment(PostCommentDto.Request.builder().postId(1L).content("content").build());
 
         // then
         then(postCommentRepository).should().save(any(PostComment.class));
     }
-
-    @DisplayName("댓글 글자수가 500이 넘어가면, SizeLimitExceededException이 발생한다.")
-    @Test
-    void savePostCommentFail() throws SizeLimitExceededException {
-        // given
-        given(postCommentRepository.save(any(PostComment.class))).willReturn(null);
-
-        // when
-        sut.savePostComment(PostCommentDto.Request.builder().content("content").build());
-
-        // then
-        then(postCommentRepository).should().save(any(PostComment.class));
-    }
-
 }

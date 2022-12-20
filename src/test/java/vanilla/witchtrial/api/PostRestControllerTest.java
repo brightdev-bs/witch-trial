@@ -14,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.context.support.TestExecutionEvent;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +32,7 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -109,6 +113,7 @@ class PostRestControllerTest {
                 .andDo(print());
     }
 
+    @WithUserDetails(value = "vanille", userDetailsServiceBeanName = "userDetailsService", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @DisplayName("게시글 생성 API")
     @Test
     void savePost() throws Exception {
@@ -123,6 +128,7 @@ class PostRestControllerTest {
         mockMvc.perform(post("/api/v1/board")
                         .content(objectMapper.writeValueAsString(postDto))
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.title").exists())
@@ -136,6 +142,7 @@ class PostRestControllerTest {
                 .andDo(print());
     }
 
+    @WithMockUser
     @DisplayName("게시글 생성 API : 실패 (잘못된 게시글 유형)")
     @Test
     void savePostFailWithWrongPostType() throws Exception {
@@ -150,11 +157,13 @@ class PostRestControllerTest {
         mockMvc.perform(post("/api/v1/board")
                         .content(objectMapper.writeValueAsString(postDto))
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
                 )
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }
 
+    @WithMockUser
     @DisplayName("게시글 수정 API")
     @Test
     void updatePost() throws Exception {
@@ -167,6 +176,7 @@ class PostRestControllerTest {
         mockMvc.perform(patch("/api/v1/board/" + 1)
                         .content(objectMapper.writeValueAsString(postDto))
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.title").value("title"))
@@ -180,12 +190,13 @@ class PostRestControllerTest {
                 .andDo(print());
     }
 
+    @WithMockUser
     @DisplayName("게시글 삭제 API")
     @Test
     void deletePost() throws Exception {
         Long postId = 1L;
 
-        mockMvc.perform(delete("/api/v1/board/" + 1))
+        mockMvc.perform(delete("/api/v1/board/" + 1).with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").value(Constants.RESPONSE_SUCCESS))
                 .andDo(print());
