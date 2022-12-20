@@ -56,6 +56,34 @@
             </div>
         </div>
 
+        <form id="order-form">
+            <div class="row">
+                <!-- BEGIN ORDER RESULT -->
+                <div class="col-sm-6">
+                    <div class="btn-group">
+                        <button id="sort-btn" type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown">
+                            <th:block
+                                    th:each="postSortType : ${postSortTypes}"
+                                    th:if="${param.sortType != null && (param.sortType.toString.toUpperCase == postSortType.name)}"
+                                    th:text="${postSortType.description}"
+                            >
+                            </th:block>
+                            <th:block th:if="${param.sortType == null}">
+                                최신순
+                            </th:block>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a class="recent dropdown-item" href="#">최신순</a></li>
+                            <li><a class="view dropdown-item" href="#">조회순</a></li>
+                            <li><a class="liked dropdown-item" href="#">추천순</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- END ORDER RESULT -->
+            </div>
+        </form>
+
         <table class="table" id="post-table">
             <thead>
                 <tr>

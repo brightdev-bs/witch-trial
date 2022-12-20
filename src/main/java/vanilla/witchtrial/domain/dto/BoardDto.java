@@ -15,14 +15,17 @@ public class BoardDto {
         private String searchType = "";
         @Nullable
         private String searchValue = "";
+        @Nullable
+        private String sortType = "";
 
         public Request() {}
 
         @Builder
-        public Request(@Nullable String searchType, @Nullable String searchValue, int page, int size) {
+        public Request(long page, long size, @Nullable String searchType, @Nullable String searchValue, @Nullable String sort) {
             super(page, size);
             this.searchType = searchType;
             this.searchValue = searchValue;
+            this.sortType = sort;
         }
     }
 
