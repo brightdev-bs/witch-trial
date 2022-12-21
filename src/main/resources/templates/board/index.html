@@ -68,7 +68,7 @@
                                     th:text="${postSortType.description}"
                             >
                             </th:block>
-                            <th:block th:if="${param.sortType == null}">
+                            <th:block th:if="${param.sortType == null || param.sortType.toString.isBlank}">
                                 최신순
                             </th:block>
                             <span class="caret"></span>

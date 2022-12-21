@@ -45,7 +45,8 @@
     </attr>
 
     <attr sel="#pagination"
-          th:with="start=${(boardList.number/maxPage)*maxPage + 1},
+          th:with="maxPage=10,
+          start=${(boardList.number/maxPage)*maxPage + 1},
           end=(${(boardList.totalPages == 0) ? 1 : (start + (maxPage - 1) < boardList.totalPages ? start + (maxPage - 1) : boardList.totalPages)})">
 
         <attr sel="li[0]/a"

@@ -31,7 +31,6 @@ public class PostController {
                                    ModelMap map) {
         Page<BoardDto.Response> boardList = postService.getBoardList(request, pageable);
 
-        map.addAttribute("maxPage", 10);
         map.addAttribute("boardList", boardList);
         map.addAttribute("postSortTypes", PostSortType.values());
         map.addAttribute("searchTypes", BoardSearchType.values());
