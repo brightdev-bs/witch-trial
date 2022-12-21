@@ -27,7 +27,7 @@ public class PostController {
 
     @GetMapping
     public String getBoardListView(@Valid @Nullable BoardDto.Request request,
-                                   @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable,
+                                   @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                                    ModelMap map) {
         Page<BoardDto.Response> boardList = postService.getBoardList(request, pageable);
 
