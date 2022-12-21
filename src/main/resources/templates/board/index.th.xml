@@ -44,23 +44,26 @@
         </attr>
     </attr>
 
-    <attr sel="#pagination">
+    <attr sel="#pagination"
+          th:with="start=${(boardList.number/maxPage)*maxPage + 1},
+          end=(${(boardList.totalPages == 0) ? 1 : (start + (maxPage - 1) < boardList.totalPages ? start + (maxPage - 1) : boardList.totalPages)})">
+
         <attr sel="li[0]/a"
               th:text="'<'"
-              th:href="@{/board(page=${currentPage - 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
-              th:class="'page-link' + (${currentPage} <= 0 ? ' disabled' : '')"
+              th:href="@{/board(page=${boardList.number - 1}, sortType=${param.sortType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+              th:class="'page-link' + (${boardList.number - 1} <= 0 ? ' disabled' : '')"
         />
-        <attr sel="li[1]" th:class="page-item" th:each="page: ${#numbers.sequence(startPage - 1, endPage - 1)}">
+        <attr sel="li[1]" th:class="page-item" th:each="page : ${#numbers.sequence(start - 1, end - 1)}">
             <attr sel="a"
                   th:text="${page + 1}"
-                  th:href="@{/board(page=${page}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
-                  th:class="'page-link' + (${page} == ${currentPage} ? ' disabled' : '')"
+                  th:href="@{/board(page=${page}, sortType=${param.sortType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+                  th:class="'page-link' + (${page} == ${boardList.number} ? ' disabled' : '')"
             />
         </attr>
         <attr sel="li[2]/a"
               th:text="'>'"
-              th:href="@{/board(page=${currentPage + 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
-              th:class="'page-link' + (${currentPage} >= ${totalCount / 10} ? ' disabled' : '')"
+              th:href="@{/board(page=${boardList.number + 1}, sortType=${param.sortType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+              th:class="'page-link' + (!${boardList.hasNext} ? ' disabled' : '')"
         />
     </attr>
 
