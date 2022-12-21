@@ -34,6 +34,8 @@ public class BoardDto {
         private Long id;
         private String title;
         private String content;
+        private int liked;
+        private int view;
         private String hashtag;
         private String postType;
         private LocalDateTime createdAt;
@@ -44,11 +46,14 @@ public class BoardDto {
                     .id(post.getId())
                     .title(post.getTitle())
                     .content(post.getTitle())
+                    .liked(post.getLiked())
+                    .view(post.getView())
                     .hashtag(post.getHashtag())
                     .postType(post.getPostType().name())
                     .createdAt(post.getCreatedAt())
                     .createdBy(post.getCreatedBy())
                     .build();
         }
+
     }
 }

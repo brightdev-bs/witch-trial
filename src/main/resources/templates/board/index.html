@@ -8,7 +8,8 @@
     <title>게시판 페이지</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link href="/css/search-bar.css" rel="stylesheet">
+    <link th:href="@{/css/search-bar.css}" rel="stylesheet">
+    <link href="../../static/css/search-bar.css">
 </head>
 <body>
 
@@ -18,102 +19,147 @@
     </header>
 
     <main class="container">
-
-        <div class="row">
-            <div class="card card-margin search-form">
-                <div class="card-body p-0">
-                    <form id="search-form">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="row no-gutters">
-                                    <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                        <label for="search-type" hidden>검색 유형</label>
-                                        <select class="form-control" id="search-type" name="searchType">
-                                            <option>제목</option>
-                                            <option>본문</option>
-                                            <option>id</option>
-                                            <option>닉네임</option>
-                                            <option>해시태그</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-8 col-md-6 col-sm-12 p-0">
-                                        <label for="search-value" hidden>검색어</label>
-                                        <input type="text" placeholder="검색어..." class="form-control" id="search-value" name="searchValue">
-                                    </div>
-                                    <div class="col-lg-1 col-md-3 col-sm-12 p-0">
-                                        <button type="submit" class="btn btn-base">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
-                                                <circle cx="11" cy="11" r="8"></circle>
-                                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                            </svg>
-                                        </button>
+        <div class="grid search">
+            <div class="row">
+                <div class="card card-margin search-form">
+                    <div class="card-body p-0">
+                        <form id="search-form">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row no-gutters">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                            <label for="search-type" hidden>검색 유형</label>
+                                            <select class="form-control" id="search-type" name="searchType">
+                                                <option>제목</option>
+                                                <option>본문</option>
+                                                <option>id</option>
+                                                <option>닉네임</option>
+                                                <option>해시태그</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-8 col-md-6 col-sm-12 p-0">
+                                            <label for="search-value" hidden>검색어</label>
+                                            <input type="text" placeholder="검색어..." class="form-control" id="search-value" name="searchValue">
+                                        </div>
+                                        <div class="col-lg-1 col-md-3 col-sm-12 p-0">
+                                            <button type="submit" class="btn btn-base">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+                                                    <circle cx="11" cy="11" r="8"></circle>
+                                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
+            </div>
+
+            <form id="order-form">
+                <div class="row">
+                    <!-- BEGIN ORDER RESULT -->
+                    <div class="col-sm-6">
+                        <div class="btn-group">
+                            <button id="sort-btn" type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown">
+                                <th:block
+                                        th:each="postSortType : ${postSortTypes}"
+                                        th:if="${param.sortType != null && (param.sortType.toString.toUpperCase == postSortType.name)}"
+                                        th:text="${postSortType.description}"
+                                >
+                                </th:block>
+                                <th:block th:if="${param.sortType == null || param.sortType.toString.isBlank}">
+                                    최신순
+                                </th:block>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a class="recent dropdown-item" href="#">최신순</a></li>
+                                <li><a class="view dropdown-item" href="#">조회순</a></li>
+                                <li><a class="liked dropdown-item" href="#">추천순</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- END ORDER RESULT -->
+                </div>
+            </form>
+
+            <!-- BEGIN TABLE RESULT -->
+            <div class="table-responsive">
+                <table id="post-table" class="table table-hover">
+                    <tbody>
+                    <tr>
+                        <td class="user-info">
+                            <img src="/img/logo.jpg"/>
+                            <strong>Vanille</strong>
+                            <span class="created-at">2023-01-01</span><br>
+                            <p class="title">This is post title.</p>
+                        </td>
+                        <td class="text-right" style="text-align: center">
+                            <span class="view">1</span><br>
+                            <span>View</span>
+                        </td>
+                        <td class="text-right" style="text-align: center">
+                            <span class="liked">1</span><br>
+                            <span>liked</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="user-info">
+                            <img src="/img/logo.jpg"/>
+                            <strong>Vanille</strong><br>
+                            <p class="title">This is post title.</p>
+                        </td>
+                        <td class="view text-right"></td>
+                        <td class="liked text-right">$550</td>
+                    </tr>
+                    <tr>
+                        <td class="user-info">
+                            <img src="/img/logo.jpg"/>
+                            <strong>Vanille</strong><br>
+                            <p class="title">This is post title.</p>
+                        </td>
+                        <td class="view text-right"></td>
+                        <td class="liked text-right">$550</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <form id="order-form">
-            <div class="row">
-                <!-- BEGIN ORDER RESULT -->
-                <div class="col-sm-6">
-                    <div class="btn-group">
-                        <button id="sort-btn" type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown">
-                            <th:block
-                                    th:each="postSortType : ${postSortTypes}"
-                                    th:if="${param.sortType != null && (param.sortType.toString.toUpperCase == postSortType.name)}"
-                                    th:text="${postSortType.description}"
-                            >
-                            </th:block>
-                            <th:block th:if="${param.sortType == null || param.sortType.toString.isBlank}">
-                                최신순
-                            </th:block>
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a class="recent dropdown-item" href="#">최신순</a></li>
-                            <li><a class="view dropdown-item" href="#">조회순</a></li>
-                            <li><a class="liked dropdown-item" href="#">추천순</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- END ORDER RESULT -->
-            </div>
-        </form>
+        <!-- END TABLE RESULT -->
 
-        <table class="table" id="post-table">
-            <thead>
-                <tr>
-                    <th class="title col-6">제목</th>
-                    <th class="hashtag col-2">해시태그</th>
-                    <th class="created-by col">작성자</th>
-                    <th class="created-at col"><time>작성일</time></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="title"><a>첫글</a></td>
-                    <td class="hashtag">#java</td>
-                    <td class="created-by">vanille</td>
-                    <td class="created-at">2022-01-01</td>
-                </tr>
-                <tr>
-                    <td class="title">두번째글</td>
-                    <td class="hashtag">#java</td>
-                    <td class="created-by">vanille</td>
-                    <td class="created-at">2022-01-01</td>
-                </tr>
-                <tr>
-                    <td class="title">세번째첫글</td>
-                    <td class="hashtag">#java</td>
-                    <td class="created-by">vanille</td>
-                    <td class="created-at">2022-01-01</td>
-                </tr>
-            </tbody>
-        </table>
+<!--        <table class="table" id="post-table">-->
+<!--            <thead>-->
+<!--                <tr>-->
+<!--                    <th class="title col-6">제목</th>-->
+<!--                    <th class="hashtag col-2">해시태그</th>-->
+<!--                    <th class="created-by col">작성자</th>-->
+<!--                    <th class="created-at col"><time>작성일</time></th>-->
+<!--                </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--                <tr>-->
+<!--                    <td class="title"><a>첫글</a></td>-->
+<!--                    <td class="hashtag">#java</td>-->
+<!--                    <td class="created-by">vanille</td>-->
+<!--                    <td class="created-at">2022-01-01</td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td class="title">두번째글</td>-->
+<!--                    <td class="hashtag">#java</td>-->
+<!--                    <td class="created-by">vanille</td>-->
+<!--                    <td class="created-at">2022-01-01</td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td class="title">세번째첫글</td>-->
+<!--                    <td class="hashtag">#java</td>-->
+<!--                    <td class="created-by">vanille</td>-->
+<!--                    <td class="created-at">2022-01-01</td>-->
+<!--                </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
 
         <nav id="pagination" aria-label="Page navigation example">
             <ul class="pagination justify-content-center">

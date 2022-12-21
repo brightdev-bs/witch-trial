@@ -85,18 +85,18 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         if(request != null && request.getSortType() != null && !request.getSortType().isBlank()) {
             String sortType = request.getSortType().toUpperCase();
             if(sortType.equals(PostSortType.RECENT.name())) {
-                return new OrderSpecifier<>(Order.ASC, post.createdAt);
+                return new OrderSpecifier<>(Order.DESC, post.createdAt);
             }
 
             if(sortType.equals(PostSortType.VIEW.name())) {
-                return new OrderSpecifier<>(Order.ASC, post.view);
+                return new OrderSpecifier<>(Order.DESC, post.view);
             }
 
             if(sortType.equals(PostSortType.LIKED.name())) {
-                return new OrderSpecifier<>(Order.ASC, post.liked);
+                return new OrderSpecifier<>(Order.DESC, post.liked);
             }
         }
-        return new OrderSpecifier<>(Order.ASC, post.createdAt);
+        return new OrderSpecifier<>(Order.DESC, post.createdAt);
     }
 
     @Override
