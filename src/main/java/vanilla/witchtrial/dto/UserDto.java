@@ -1,6 +1,6 @@
 package vanilla.witchtrial.dto;
 
-import vanilla.witchtrial.domain.User;
+import vanilla.witchtrial.domain.UserAccount;
 
 public record UserDto(
         Long id,
@@ -17,7 +17,7 @@ public record UserDto(
         return new UserDto(id, email, password, username);
     }
 
-    public static UserDto from(User entity) {
+    public static UserDto from(UserAccount entity) {
         return new UserDto(
                 entity.getId(),
                 entity.getEmail(),
