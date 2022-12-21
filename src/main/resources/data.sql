@@ -98,6 +98,7 @@ insert into post (id, title, content, hashtag, post_type, created_at, created_by
 insert into post (id, title, content, hashtag, post_type, created_at, created_by, modified_at, modified_by, view, liked) values (98, 'Research Nurse', 'Etiam vel augue.', '#fbdcb2', 'GOSSIP', '2022-03-18 21:10:06', 'Nancie', '2022-03-13 17:44:18', 'Diane', 98, 98);
 insert into post (id, title, content, hashtag, post_type, created_at, created_by, modified_at, modified_by, view, liked) values (99, 'Quality Engineer', 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante.', '#48a50b', 'TRIAL', '2022-05-28 20:42:23', 'Ernestine', '2022-09-27 16:39:54', 'Peg', 99, 99);
 insert into post (id, title, content, hashtag, post_type, created_at, created_by, modified_at, modified_by, view, liked) values (100, 'Statistician I', 'Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', '#b30983', 'DATING', '2022-03-15 12:26:30', 'Anabelle', '2021-12-30 08:25:23', 'Angie', 100, 100);
+insert into post (id, title, content, hashtag, post_type, created_at, created_by, modified_at, modified_by, view, liked) values (101, 'Statistician I', 'Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', '#b30983', 'DATING', '2022-03-15 12:26:30', 'Anabelle', '2021-12-30 08:25:23', 'Angie', 101, 101);
 
 insert into post_comment (id, post_id, content, created_at, created_by, modified_at, modified_by) values (1, 1, 'Vivamus vel nulla eget eros elementum pellentesque.', '2022-05-27 15:06:50', 'Tomkin', '2022-10-22 23:20:21', 'Marietta');
 insert into post_comment (id, post_id, content, created_at, created_by, modified_at, modified_by) values (2, 2, 'Donec posuere metus vitae ipsum. Aliquam non mauris.', '2022-12-04 14:27:37', 'Winny', '2022-04-08 07:34:19', 'Amalia');
@@ -201,4 +202,4 @@ insert into post_comment (id, post_id, content, created_at, created_by, modified
 insert into post_comment (id, post_id, content, created_at, created_by, modified_at, modified_by) values (100, 100, 'Nulla justo.', '2021-12-22 20:41:35', 'Lida', '2022-03-20 21:04:05', 'Janeva');
 insert into post_comment (id, post_id, content, created_at, created_by, modified_at, modified_by) values (101, 1, 'Nulla justo.', '2021-12-22 20:41:35', 'Lida', '2022-03-20 21:04:05', 'Janeva');
 
-insert into user(id, email, password, username) values(1, 'vanille@gmail.com', '{noop}pw', 'vanille')
+insert into user_account(id, email, password, username) values(1, 'vanille@gmail.com', '{noop}pw', 'vanille')

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 })
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-public class User {
+public class UserAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,16 +34,16 @@ public class User {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    protected User() {
+    protected UserAccount() {
     }
 
-    private User(String email, String username, String password) {
+    private UserAccount(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
     }
 
-    public static User of(String email, String username, String password) {
-        return new User(email, username, password);
+    public static UserAccount of(String email, String username, String password) {
+        return new UserAccount(email, username, password);
     }
 }

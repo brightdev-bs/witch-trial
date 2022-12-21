@@ -3,7 +3,7 @@ package vanilla.witchtrial.config;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.event.annotation.BeforeTestMethod;
-import vanilla.witchtrial.domain.User;
+import vanilla.witchtrial.domain.UserAccount;
 import vanilla.witchtrial.repository.UserRepository;
 
 import java.util.Optional;
@@ -17,7 +17,7 @@ public class TestSecurityConfig {
 
     @BeforeTestMethod
     public void securitySetUp() {
-        given(userRepository.findByEmail(anyString())).willReturn(Optional.of(User.of(
+        given(userRepository.findByEmail(anyString())).willReturn(Optional.of(UserAccount.of(
                 "vanille",
                 "vanille",
                 "pw"
