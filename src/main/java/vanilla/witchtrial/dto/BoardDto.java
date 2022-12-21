@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class BoardDto {
 
     @Data
-    public static class Request extends PagingDto {
+    public static class Request {
         @Nullable
         private String searchType = "";
         @Nullable
@@ -21,8 +21,7 @@ public class BoardDto {
         public Request() {}
 
         @Builder
-        public Request(long page, long size, @Nullable String searchType, @Nullable String searchValue, @Nullable String sort) {
-            super(page, size);
+        public Request(@Nullable String searchType, @Nullable String searchValue, @Nullable String sort) {
             this.searchType = searchType;
             this.searchValue = searchValue;
             this.sortType = sort;

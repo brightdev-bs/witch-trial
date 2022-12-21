@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 import vanilla.witchtrial.domain.Post;
@@ -16,7 +19,6 @@ import vanilla.witchtrial.dto.type.BoardSearchType;
 import vanilla.witchtrial.global.exception.NotFoundException;
 import vanilla.witchtrial.repository.PostRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -40,16 +42,19 @@ class PostServiceTest {
         BoardDto.Request request = BoardDto.Request.builder()
                 .searchType(BoardSearchType.TITLE.name())
                 .searchValue("search keyword")
-                .page(0)
-                .size(10)
                 .build();
+        PageRequest pageable = PageRequest.of(0, 10);
+
+        Page mock = Mockito.mock(Page.class);
+        Page sutMock = Mockito.mock(Page.class);
+        when(postRepository.findBoardList(request, pageable)).thenReturn(mock);
+        when(sut.getBoardList(request, pageable)).thenReturn(sutMock);
 
         // When
-        List<BoardDto.Response> boardList = sut.getBoardList(request);
+        Page<BoardDto.Response> boardList = sut.getBoardList(request, pageable);
 
         // Then
         assertThat(boardList).isNotNull();
-
     }
 
     @DisplayName("게시글을 조회하면, 게시글을 반환한다.")

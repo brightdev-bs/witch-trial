@@ -5,6 +5,9 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.dto.BoardDto;
 import vanilla.witchtrial.dto.type.BoardSearchType;
@@ -16,7 +19,6 @@ import java.util.Optional;
 
 import static vanilla.witchtrial.domain.QPost.post;
 import static vanilla.witchtrial.domain.QPostComment.postComment;
-import static vanilla.witchtrial.global.common.constants.Constants.DEFAULT_PAGE_SIZE;
 
 public class PostRepositoryImpl implements PostRepositoryCustom {
 
@@ -27,14 +29,23 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public List<Post> findBoardList(BoardDto.Request request) {
-        return queryFactory
+    public Page<Post> findBoardList(BoardDto.Request request, Pageable pageable) {
+        BooleanExpression where = getSearchOption(request);
+        List<Post> posts = queryFactory
                 .selectFrom(post)
-                .where(getSearchOption(request))
-                .offset(request.getPage() * DEFAULT_PAGE_SIZE)
-                .limit(request.getSize())
+                .where(where)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .orderBy(getSortOption(request))
                 .fetch();
+
+        Long count = queryFactory
+                .select(post.count())
+                .from(post)
+                .where(where)
+                .fetchOne();
+
+        return new PageImpl<>(posts, pageable, count);
     }
 
     private BooleanExpression getSearchOption(BoardDto.Request request) {

@@ -2,6 +2,8 @@ package vanilla.witchtrial.service;
 
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vanilla.witchtrial.domain.Post;
@@ -11,8 +13,6 @@ import vanilla.witchtrial.global.common.constants.ErrorCode;
 import vanilla.witchtrial.global.exception.NotFoundException;
 import vanilla.witchtrial.repository.PostRepository;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -21,8 +21,8 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
 
     @Override
-    public List<BoardDto.Response> getBoardList(BoardDto.Request request) {
-        return postRepository.findBoardList(request).stream().map(BoardDto.Response::from).toList();
+    public Page<BoardDto.Response> getBoardList(BoardDto.Request request, Pageable pageable) {
+        return postRepository.findBoardList(request, pageable).map(BoardDto.Response::from);
     }
 
     @Override
