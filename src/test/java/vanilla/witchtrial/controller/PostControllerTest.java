@@ -1,5 +1,6 @@
 package vanilla.witchtrial.controller;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import vanilla.witchtrial.config.TestSecurityConfig;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.dto.BoardDto;
@@ -23,6 +27,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -32,8 +37,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PostControllerTest {
 
     @Autowired private MockMvc mockMvc;
-
     @MockBean private PostService postService;
+
 
     @DisplayName("[view][GET] 게시판 리스트")
     @Test
@@ -49,6 +54,51 @@ class PostControllerTest {
                 .andExpect(view().name("board/index"));
 
         then(postService).should().getBoardList(any(BoardDto.Request.class), any(Pageable.class));
+    }
+
+    @DisplayName("[view][GET] 게시글 등록 페이지")
+    @Test
+    void getPostForm() throws Exception {
+        mockMvc.perform(get("/board/postForm"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(view().name("board/postForm"))
+                .andExpect(model().attributeExists("postTypes"))
+                .andDo(print());
+    }
+
+    @DisplayName("[POST] 게시글 등록 - 성공")
+    @Test
+    void saveNewPost() throws Exception {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("title", "제목");
+        params.add("postType", "trial");
+        params.add("content", "더미 본문");
+
+        mockMvc.perform(post("/board/postForm")
+                        .params(params)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("[POST] 게시글 등록 - 실패")
+    @Test
+    void saveNewPostFail() throws Exception {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("title", "      ");
+        params.add("postType", "trial");
+        params.add("content", "더미 본문");
+
+        MvcResult mvcResult = mockMvc.perform(post("/board/postForm")
+                        .params(params)
+                )
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+                .andReturn();
+
+        String responseBody = mvcResult.getResponse().getContentAsString();
+        Assertions.assertThat(responseBody.contains("title")).isTrue();
     }
 
     @DisplayName("[view][GET] 게시글 상세 페이지")
