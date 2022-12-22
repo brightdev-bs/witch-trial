@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<thlogic>
+    <attr sel="#header" th:replace="header :: header"/>
+    <attr sel="#footer" th:replace="footer :: footer"/>
+
+    <!-- 셀렉트 박스 -->
+    <attr sel="#post-type" th:remove="all-but-first">
+        <attr sel="option[0]"
+              th:each="postType : ${postTypes}"
+              th:value="${postType.name}"
+              th:text="${postType.description}"
+              th:selected="${param.postType != null && (param.postType.toString == postType.name)}"
+        />
+    </attr>
+
+</thlogic>

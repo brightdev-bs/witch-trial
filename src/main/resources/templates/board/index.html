@@ -37,7 +37,7 @@
                                                 <option>해시태그</option>
                                             </select>
                                         </div>
-                                        <div class="col-lg-8 col-md-6 col-sm-12 p-0">
+                                        <div class="col-lg-7 col-md-6 col-sm-12 p-0">
                                             <label for="search-value" hidden>검색어</label>
                                             <input type="text" placeholder="검색어..." class="form-control" id="search-value" name="searchValue">
                                         </div>
@@ -55,6 +55,11 @@
                         </form>
                     </div>
                 </div>
+
+                <form id="new-post-btn" method="get" action="/board/postForm">
+                    <label for="post-submit" hidden>글쓰기</label>
+                    <button class="btn btn-primary" id="post-submit" type="submit">글쓰기</button>
+                </form>
             </div>
 
             <form id="order-form">

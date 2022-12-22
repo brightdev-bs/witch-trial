@@ -3,6 +3,7 @@
     <attr sel="#header" th:replace="header :: header"></attr>
     <attr sel="#footer" th:replace="footer :: footer"></attr>
 
+    <!-- 정렬 -->
     <attr sel="ul/li/a.recent" th:text="'최신순'" th:href="@{/board(
         page=${param.page != null} ? ${param.page} : 0,
         sortType='recent',

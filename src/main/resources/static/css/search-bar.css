@@ -111,3 +111,7 @@ body{margin-top:20px;}
 #post-table tbody tr td.view {
     text-align: center;
 }
+
+#new-post-btn {
+    text-align: right;
+}

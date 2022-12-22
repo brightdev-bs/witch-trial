@@ -1,9 +1,7 @@
 package vanilla.witchtrial.config;
 
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -20,22 +18,24 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeHttpRequests(auth -> auth
-                        // static 폴더 모두 허용
-                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        // 인증 필요 없는 페이지 추가
-                        .requestMatchers(
-                                HttpMethod.GET
-                        ).permitAll()
-                        // 그 외 모든 페이지는 인증이 필요함.
-                        .anyRequest().authenticated()
-                )
-                .formLogin().and()
-                .logout()
-                    .logoutSuccessUrl("/")
-                    .and()
-                .build();
+        http.csrf().disable();
+        return http.authorizeHttpRequests(auth -> auth.requestMatchers("/**").permitAll()).formLogin().and().build();
+//        return http
+//                .authorizeHttpRequests(auth -> auth
+//                        // static 폴더 모두 허용
+//                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+//                        // 인증 필요 없는 페이지 추가
+//                        .requestMatchers(
+//                                HttpMethod.GET
+//                        ).permitAll()
+//                        // 그 외 모든 페이지는 인증이 필요함.
+//                        .anyRequest().authenticated()
+//                )
+//                .formLogin().and()
+//                .logout()
+//                    .logoutSuccessUrl("/")
+//                    .and()
+//                .build();
     }
 
     @Bean
