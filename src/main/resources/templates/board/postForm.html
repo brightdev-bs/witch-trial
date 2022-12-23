@@ -57,8 +57,8 @@
         </div>
 
         <div class="form-group mb-4">
-            <label for="editor">본문</label>
-            <textarea id="editor" name="content"></textarea>
+            <label for="content">본문</label>
+            <textarea id="content" name="content"></textarea>
         </div>
 
         <div class="text-end">
@@ -75,27 +75,47 @@
 
 <script th:inline="javascript">
 
-    let $editor = $('#editor');
+    let $editor = $('#content');
 
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .then(editor => {
-            $editor = editor;
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    const status = /*[[${status}]]*/
+
+    function init() {
+        initEditor();
+        initPostType();
+    }
+
+    function initEditor() {
+        ClassicEditor
+            .create(document.querySelector('#content'))
+            .then(editor => {
+                $editor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    function initPostType() {
+        if(status != null)
+            $('#post-type').prop('disabled',true);
+    }
 
     $('#post-submit-btn').on('click', function (){
         let params = $('#submit-form').serializeObject();
         params.content = $editor.getData();
 
+        let postUrl = '';
+        if(status != null && status == 'update') {
+            postUrl = "/board/postForm/" + /*[[${postDetail?.id}]]*/
+        } else
+            "/board/postForm"
+
         $.ajax({
             type: "POST",
-            url: "/board/postForm",
+            url: postUrl,
             data: params,
-            success: function() {
-                alert("등록 되었습니다.");
+            success: function(data) {
+                alert(data);
                 window.location.replace("/board");
             },
             error: function(response) {
@@ -109,6 +129,8 @@
             }
         })
     })
+
+    init();
 </script>
 
 <script src="/js/common.js"></script>

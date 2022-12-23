@@ -10,16 +10,15 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import vanilla.witchtrial.dto.BoardDto;
 import vanilla.witchtrial.dto.PostDto;
 import vanilla.witchtrial.dto.type.BoardSearchType;
 import vanilla.witchtrial.dto.type.PostSortType;
 import vanilla.witchtrial.dto.type.PostType;
 import vanilla.witchtrial.service.PostService;
+
+import static vanilla.witchtrial.global.common.constants.Constants.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -48,15 +47,37 @@ public class PostController {
         return "board/postDetail";
     }
 
-    @GetMapping("/postForm")
-    public String postForm(ModelMap map) {
+    @GetMapping(value = {"/postForm", "/postForm/{postId}"})
+    public String postForm(@PathVariable @Nullable Long postId, ModelMap map) {
+        if(postId != null) {
+            PostDto.Response postDetail = postService.getPostDetail(postId);
+            map.addAttribute("postDetail", postDetail);
+            map.addAttribute("status", "update");
+        }
         map.addAttribute("postTypes", PostType.values());
         return "board/postForm";
     }
 
     @PostMapping("/postForm")
-    public void saveNewPost(@Valid PostDto.Request request) {
+    @ResponseBody
+    public String saveNewPost(@Valid PostDto.Request request) {
         postService.saveNewPost(request);
+        return SAVE_SUCCESS;
+    }
+
+    @PostMapping("/postForm/{postId}")
+    @ResponseBody
+    public String updatePost(@PathVariable Long postId, PostDto.UpdateRequest request) {
+        request.setPostId(postId);
+        postService.updatePost(request);
+        return UPDATE_SUCCESS;
+    }
+
+    @PostMapping("/delete/{postId}")
+    @ResponseBody
+    public String deletePost(@PathVariable Long postId) {
+        postService.deletePost(postId);
+        return DELETE_SUCCESS;
     }
 
 

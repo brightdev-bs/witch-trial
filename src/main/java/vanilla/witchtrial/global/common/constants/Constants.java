@@ -2,8 +2,10 @@ package vanilla.witchtrial.global.common.constants;
 
 public class Constants {
 
-    // API 응답
-    public static final String RESPONSE_SUCCESS = "Your request has been processed successfully";
+    // AJAX
+    public static final String SAVE_SUCCESS = "성공적으로 저장되었습니다.";
+    public static final String UPDATE_SUCCESS = "성공적으로 수정되었습니다.";
+    public static final String DELETE_SUCCESS = "성공적으로 삭제되었습니다.";
 
 
     // PAGING

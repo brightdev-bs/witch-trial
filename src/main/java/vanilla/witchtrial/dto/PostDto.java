@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.lang.Nullable;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.dto.type.PostType;
 import vanilla.witchtrial.global.validation.EnumValid;
@@ -49,8 +48,8 @@ public class PostDto {
         private String title;
         @NotNull
         private String content;
-        @Nullable
-        private String hashtag;
+//        @Nullable
+//        private String hashtag;
     }
 
     @Builder

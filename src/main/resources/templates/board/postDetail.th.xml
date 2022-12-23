@@ -6,10 +6,10 @@
 
     <attr sel="#post-main" th:object="${postDetail}">
         <attr sel="#post-header/h1" th:text="*{title}"/>
-        <attr sel="#username" th:text="*{createdBy}"/>
-<!--        <attr sel="#email" th:text="*{email}"/>-->
-        <attr sel="#created-at/time" th:datetime="*{createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd')}" />
-        <attr sel="#hashtag" th:text="*{hashtag}"/>
+        <attr sel="#username" th:text="|작성자 : *{createdBy}|"/>
+<!--        <attr sel="#email" th:text="|작성자 ID : *{email}|"/>-->
+        <attr sel="#created-at/time" th:datetime="*{createdAt}" th:text="|작성일 : ${#temporals.format(article.createdAt, 'yyyy-MM-dd')}|" />
+<!--        <attr sel="#hashtag" th:text="*{hashtag}"/>-->
         <attr sel="#post-content" th:text="*{content}"/>
 
         <attr sel=".post-id" th:name="postId" th:value="*{id}" />
@@ -29,5 +29,8 @@
                 </attr>
             </attr>
         </attr>
+
+        <attr sel="#update-article" th:href="'/board/postForm/' +${postDetail.id}"/>
+
     </attr>
 </thlogic>
