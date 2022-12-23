@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService {
         if(!StringUtils.isBlank(postDto.getContent())) {
             post.setContent(postDto.getContent());
         }
-        post.setHashtag(postDto.getHashtag());
+//        post.setHashtag(postDto.getHashtag());
 
         return PostDto.Response.from(post);
     }

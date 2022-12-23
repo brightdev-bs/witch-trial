@@ -1,10 +1,10 @@
 package vanilla.witchtrial.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.lang.Nullable;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.dto.type.PostType;
 import vanilla.witchtrial.global.validation.EnumValid;
@@ -19,16 +19,16 @@ public class PostDto {
     @Builder
     @Data
     public static class Request {
-        @NotNull(message = "title is necessary.")
+        @NotBlank(message = "title is necessary.")
         @Size(max = 255)
         private String title;
 
-        @NotNull(message = "content is necessary")
+        @NotBlank(message = "content is necessary")
         @Size(max = 2000)
         private String content;
 
-        @Nullable
-        private String hashtag;
+//        @Nullable
+//        private String hashtag;
 
         @EnumValid(enumClass = PostType.class, ignoreCase = true)
         @NotNull(message = "post-type is necessary")
@@ -36,7 +36,7 @@ public class PostDto {
         private String createdBy;
 
         public static Post toEntity(Request dto) {
-            return Post.of(dto.getTitle(), dto.getContent(), dto.getHashtag(), dto.getPostType());
+            return Post.of(dto.getTitle(), dto.getContent(), null, dto.getPostType());
         }
     }
 
@@ -48,8 +48,8 @@ public class PostDto {
         private String title;
         @NotNull
         private String content;
-        @Nullable
-        private String hashtag;
+//        @Nullable
+//        private String hashtag;
     }
 
     @Builder

@@ -3,6 +3,7 @@
     <attr sel="#header" th:replace="header :: header"></attr>
     <attr sel="#footer" th:replace="footer :: footer"></attr>
 
+    <!-- 정렬 -->
     <attr sel="ul/li/a.recent" th:text="'최신순'" th:href="@{/board(
         page=${param.page != null} ? ${param.page} : 0,
         sortType='recent',
@@ -35,11 +36,11 @@
 
     <attr sel="#post-table">
         <attr sel="tbody" th:remove="all-but-first">
-            <attr sel="tr[0]" th:each="post : ${boardList}">
+            <attr sel="tr[0]" th:each="post : ${boardList}" th:onclick="|location.href='/board/${post.id}'|">
                 <attr sel="td.user-info/strong" th:text="${post.createdBy}"/>
 <!--                <attr sel="td.title/a" th:text="${post.title}" th:href="@{'/board/' + ${post.id}}"/>-->
                 <attr sel="td.user-info/span" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}"/>
-                <attr sel="p.content" th:text="${post.content}"/>
+                <attr sel="p.title" th:text="${post.title}"/>
                 <attr sel="td/span.view" th:text="${post.view}"/>
                 <attr sel="td/span.liked" th:text="${post.liked}"/>
 <!--                <attr sel="td.created-by" th:text="${post.createdBy}"/>-->

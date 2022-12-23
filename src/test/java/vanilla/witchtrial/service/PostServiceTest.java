@@ -78,7 +78,7 @@ class PostServiceTest {
         PostDto.Request postDto = PostDto.Request.builder()
                 .title("title")
                 .content("content")
-                .hashtag("#test")
+                /*.hashtag("#test")*/
                 .postType("TRIAL")
                 .createdBy("vanille")
                 .build();
