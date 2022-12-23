@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="vanille">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>게시글 작성 페이지</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -107,13 +109,19 @@
         let postUrl = '';
         if(status != null && status == 'update') {
             postUrl = "/board/postForm/" + /*[[${postDetail?.id}]]*/
-        } else
+        } else {
             "/board/postForm"
+        }
 
         $.ajax({
             type: "POST",
             url: postUrl,
             data: params,
+            beforeSend: function (jqXHR, settings) {
+                var header = $("meta[name='_csrf_header']").attr("content");
+                var token = $("meta[name='_csrf']").attr("content");
+                jqXHR.setRequestHeader(header, token);
+            },
             success: function(data) {
                 alert(data);
                 window.location.replace("/board");
