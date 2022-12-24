@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import vanilla.witchtrial.dto.UserPrincipal;
 
 import java.time.LocalDateTime;
 
@@ -45,5 +46,9 @@ public class UserAccount {
 
     public static UserAccount of(String email, String username, String password) {
         return new UserAccount(email, username, password);
+    }
+
+    public UserPrincipal from() {
+        return UserPrincipal.of(this.id, this.email, this.password, this.username);
     }
 }

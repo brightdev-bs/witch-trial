@@ -1,5 +1,6 @@
 package vanilla.witchtrial.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,11 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import vanilla.witchtrial.dto.BoardDto;
 import vanilla.witchtrial.dto.PostDto;
+import vanilla.witchtrial.dto.UserPrincipal;
 import vanilla.witchtrial.dto.type.BoardSearchType;
 import vanilla.witchtrial.dto.type.PostSortType;
 import vanilla.witchtrial.dto.type.PostType;
@@ -60,24 +63,39 @@ public class PostController {
 
     @PostMapping("/postForm")
     @ResponseBody
-    public String saveNewPost(@Valid PostDto.Request request) {
+    public String saveNewPost(@Valid PostDto.Request request, @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        request.setUserPrincipal(userPrincipal);
         postService.saveNewPost(request);
         return SAVE_SUCCESS;
     }
 
     @PostMapping("/postForm/{postId}")
     @ResponseBody
-    public String updatePost(@PathVariable Long postId, PostDto.UpdateRequest request) {
+    public String updatePost(@PathVariable Long postId,
+                             PostDto.UpdateRequest request,
+                             @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
         request.setPostId(postId);
-        postService.updatePost(request);
-        return UPDATE_SUCCESS;
+        request.setUserPrincipal(userPrincipal);
+        try {
+            postService.updatePost(request);
+            return UPDATE_SUCCESS;
+        } catch (EntityNotFoundException | IllegalAccessException e) {
+            return UPDATE_FAIL;
+        }
     }
 
     @PostMapping("/delete/{postId}")
     @ResponseBody
-    public String deletePost(@PathVariable Long postId) {
-        postService.deletePost(postId);
-        return DELETE_SUCCESS;
+    public String deletePost(@PathVariable Long postId,
+                             @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
+        try {
+            postService.deletePost(postId, userPrincipal);
+            return DELETE_SUCCESS;
+        } catch (IllegalAccessException e) {
+            return DELETE_FAIL;
+        }
     }
 
 

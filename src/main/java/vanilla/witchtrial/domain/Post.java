@@ -38,6 +38,9 @@ public class Post extends AuditingFields {
     @Enumerated(EnumType.STRING)
     private PostType postType;
 
+    @ManyToOne
+    private UserAccount user;
+
     @ToString.Exclude
     @OrderBy("id")
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -45,18 +48,19 @@ public class Post extends AuditingFields {
 
     protected Post() {}
 
-    private Post(String title, String content, String hashtag, PostType postType) {
+    private Post(String title, String content, String hashtag, PostType postType, UserAccount user) {
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
         this.postType = postType;
+        this.user = user;
         this.view = 0;
         this.liked = 0;
     }
 
-    public static Post of(String title, String content, String hashtag, String postType) {
+    public static Post of(String title, String content, String hashtag, String postType, UserAccount user) {
         // Todo : 검증 로직
-        return new Post(title, content, hashtag, Enum.valueOf(PostType.class, postType));
+        return new Post(title, content, hashtag, Enum.valueOf(PostType.class, postType), user);
     }
 
     @Override

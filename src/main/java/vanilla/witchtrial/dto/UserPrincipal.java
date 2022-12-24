@@ -10,16 +10,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public record UserPrincipal(
+        Long id,
         String email,
         String password,
         String username,
         Collection<? extends GrantedAuthority> authorities
 ) implements UserDetails {
 
-    public static UserPrincipal of(String email, String password, String username) {
+    public static UserPrincipal of(Long id, String email, String password, String username) {
         Set<RoleType> roleTypes = Set.of(RoleType.USER);
 
         return new UserPrincipal(
+                id,
                 email,
                 password,
                 username,
@@ -32,6 +34,7 @@ public record UserPrincipal(
 
     public static UserPrincipal from(UserDto dto) {
         return UserPrincipal.of(
+                dto.id(),
                 dto.email(),
                 dto.password(),
                 dto.username()
