@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import vanilla.witchtrial.domain.Post;
+import vanilla.witchtrial.domain.UserAccount;
 import vanilla.witchtrial.dto.type.PostType;
 import vanilla.witchtrial.global.validation.EnumValid;
 
@@ -34,9 +35,10 @@ public class PostDto {
         @NotNull(message = "post-type is necessary")
         private String postType;
         private String createdBy;
+        private UserPrincipal userPrincipal;
 
-        public static Post toEntity(Request dto) {
-            return Post.of(dto.getTitle(), dto.getContent(), null, dto.getPostType());
+        public static Post toEntity(Request dto, UserAccount user) {
+            return Post.of(dto.getTitle(), dto.getContent(), null, dto.getPostType(), user);
         }
     }
 
@@ -44,12 +46,11 @@ public class PostDto {
     @Data
     public static class UpdateRequest {
         private Long postId;
-        @NotNull
+        @NotBlank
         private String title;
-        @NotNull
+        @NotBlank
         private String content;
-//        @Nullable
-//        private String hashtag;
+        private UserPrincipal userPrincipal;
     }
 
     @Builder

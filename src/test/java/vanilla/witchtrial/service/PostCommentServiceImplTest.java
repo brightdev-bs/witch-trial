@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.PostComment;
+import vanilla.witchtrial.domain.UserAccount;
 import vanilla.witchtrial.dto.PostCommentDto;
 import vanilla.witchtrial.repository.PostCommentRepository;
 import vanilla.witchtrial.repository.PostRepository;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.mock;
 
 @DisplayName("비즈니스 로직 - 댓글")
 @ExtendWith(MockitoExtension.class)
@@ -34,7 +36,8 @@ class PostCommentServiceImplTest {
     @Test
     void savePostComment()  {
         // given
-        given(postRepository.findByIdWithDsl(1L)).willReturn(Optional.of((Post.of("t", "c", "#t", "TRIAL"))));
+        UserAccount mock = mock(UserAccount.class);
+        given(postRepository.findByIdWithDsl(1L)).willReturn(Optional.of(Post.of("t", "c", "#t", "TRIAL", mock)));
         given(postCommentRepository.save(any(PostComment.class))).willReturn(null);
 
         // when

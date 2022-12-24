@@ -134,15 +134,6 @@
                     alert(data);
                     window.location.replace("/board");
                 },
-                error: function(response) {
-                    console.log("response = {}", response);
-                    console.log(response.responseJSON.data);
-                    if(response.responseJSON.data.includes('title')) {
-                        alert("제목을 입력해주세요.");
-                    } else if(response.responseJSON.data.includes('content')) {
-                        alert("본문을 입력해주세요.");
-                    }
-                }
             })
         }
 

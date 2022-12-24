@@ -19,10 +19,13 @@ public enum ErrorCode {
 
 
     /* Common Error */
+    NOT_FOUND_ENTITY(HttpStatus.BAD_REQUEST, "Can't find the entity"),
     INVALID_PARAMS(HttpStatus.BAD_REQUEST, "Invalid Params"),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "Incorrect Password"),
     SIZE_LIMIT_EXCEEDED(HttpStatus.BAD_REQUEST, "Size limit exceeded"),
 
+    /* Business Error */
+    ILLEGAL_CLIENT_REQUEST(HttpStatus.BAD_REQUEST, "Illegal client request")
     ;
 
     private HttpStatus httpStatus;
