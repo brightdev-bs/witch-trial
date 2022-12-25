@@ -104,7 +104,13 @@
 
     $('#post-submit-btn').on('click', function (){
         let params = $('#submit-form').serializeObject();
-        params.content = $editor.getData();
+        let content = $editor.getData();
+        params.content = btoa(content);
+        params.contentRaw = content.replaceAll("&amp;", "[&]")
+            .replaceAll("&lt;", "<")
+            .replaceAll("&gt;", ">")
+            .replaceAll("&quot;", "\"")
+            .replaceAll("&#39;", "\\");
 
         let postUrl = '';
         if(status != null && status == 'update') {
