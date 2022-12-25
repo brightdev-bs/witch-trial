@@ -7,7 +7,6 @@
     <attr sel="#post-main" th:object="${postDetail}">
         <attr sel="#post-header/h1" th:text="*{title}"/>
         <attr sel="#username" th:text="|작성자 : *{createdBy}|"/>
-<!--        <attr sel="#email" th:text="|작성자 ID : *{email}|"/>-->
         <attr sel="#created-at/time" th:datetime="*{createdAt}" th:text="|작성일 : ${#temporals.format(article.createdAt, 'yyyy-MM-dd')}|" />
 <!--        <attr sel="#hashtag" th:text="*{hashtag}"/>-->
         <attr sel="#post-content" th:text="*{content}"/>
@@ -28,7 +27,7 @@
                       th:method="post"
                 >
                     <attr sel="div/strong" th:text="${postComment.createdBy}"/>
-                    <attr sel="div/small/time" th:text="${postComment.createdBy}"/>
+                    <attr sel="div/small/time" th:text="${#temporals.format(postComment.createdAt, 'yyyy-MM-dd')}"/>
                     <attr sel="div/p" th:text="${postComment.content}"/>
                     <attr sel="div/button" th:if="${#authorization.expression('isAuthenticated()')} and ${postComment.createdBy} == ${#authentication.name}"
                 </attr>
