@@ -95,6 +95,7 @@ class PostServiceTest {
         PostDto.Request postDto = PostDto.Request.builder()
                 .title("title")
                 .content("content")
+                .contentRaw("content-raw")
                 /*.hashtag("#test")*/
                 .postType("TRIAL")
                 .createdBy("vanille")
@@ -118,6 +119,7 @@ class PostServiceTest {
                 .postId(postId)
                 .title("change-title")
                 .content("change-content")
+                .contentRaw("content-raw")
                 .userPrincipal(userAccount.from())
                 .build();
 
@@ -128,7 +130,8 @@ class PostServiceTest {
         assertThat(post)
                 .hasFieldOrPropertyWithValue("id", postId)
                 .hasFieldOrPropertyWithValue("title", postDto.getTitle())
-                .hasFieldOrPropertyWithValue("content", postDto.getContent());
+                .hasFieldOrPropertyWithValue("content", postDto.getContent())
+                .hasFieldOrPropertyWithValue("contentRaw", postDto.getContentRaw());
 //                .hasFieldOrPropertyWithValue("hashtag", postDto.getHashtag());
     }
 
@@ -202,6 +205,7 @@ class PostServiceTest {
         Post post = Post.of(
                 "title",
                 "content",
+                "content-raw",
                 "#java",
                 "TRIAL",
                 user
