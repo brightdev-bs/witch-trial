@@ -61,7 +61,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             }
 
             if(request.getSearchType().equals(BoardSearchType.CONTENT.name())) {
-                return post.content.contains(request.getSearchValue());
+                return post.contentRaw.contains(request.getSearchValue());
             }
 
             if(request.getSearchType().equals(BoardSearchType.HASHTAG.name())) {

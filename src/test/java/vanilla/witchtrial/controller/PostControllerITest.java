@@ -1,20 +1,29 @@
 package vanilla.witchtrial.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
+import vanilla.witchtrial.repository.UserRepository;
+import vanilla.witchtrial.service.PostService;
+
+import java.util.Map;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static vanilla.witchtrial.controller.PostControllerTest.POST_ID;
 import static vanilla.witchtrial.global.common.constants.Constants.*;
@@ -26,6 +35,28 @@ import static vanilla.witchtrial.global.common.constants.Constants.*;
 public class PostControllerITest {
 
     @Autowired private MockMvc mockMvc;
+    @Autowired private ObjectMapper mapper;
+    @Autowired private UserRepository userRepository;
+    @Autowired private PostService postService;
+
+    @DisplayName("[GET] 게시글 검색 - 본문")
+    @Test
+    void searchBoardListWithContentValue() throws Exception {
+        // when
+        MvcResult mvcResult = mockMvc.perform(get("/board")
+                        .param("searchType", "CONTENT")
+                        .param("searchValue", "Donec dapibus.")
+                )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("boardList"))
+                .andReturn();
+
+        // then
+        ModelAndView modelAndView = mvcResult.getModelAndView();
+        Map<String, Object> model = modelAndView.getModel();
+        Page boardList = (Page) model.get("boardList");
+        Assertions.assertEquals(boardList.getNumberOfElements(), 2);
+    }
 
 
     @WithUserDetails(value = "vanille@gmail.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
