@@ -72,11 +72,11 @@ public class Post extends AuditingFields {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Post post)) return false;
-        return id != null && id.equals(post.id); // 영속화 되있지 않으면 다른 객체로 볼 것임.
+        return this.getId() != null && this.getId().equals(post.getId()); // 영속화 되있지 않으면 다른 객체로 볼 것임.
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(this.getId());
     }
 }
