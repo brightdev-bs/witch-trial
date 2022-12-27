@@ -27,8 +27,12 @@ public class Post extends AuditingFields {
 
     @Column(nullable = false, length = 255)
     @Setter private String title;
+
+    @Column(nullable = false, length = 3000)
+    @Setter private String content; // Base64
+
     @Column(nullable = false, length = 2000)
-    @Setter private String content;
+    @Setter private String contentRaw; // 검색을 위한 본문
 
     @Setter private String hashtag;
     @Setter private int view;
@@ -48,9 +52,10 @@ public class Post extends AuditingFields {
 
     protected Post() {}
 
-    private Post(String title, String content, String hashtag, PostType postType, UserAccount user) {
+    private Post(String title, String content, String contentRaw, String hashtag, PostType postType, UserAccount user) {
         this.title = title;
         this.content = content;
+        this.contentRaw =contentRaw;
         this.hashtag = hashtag;
         this.postType = postType;
         this.user = user;
@@ -58,9 +63,9 @@ public class Post extends AuditingFields {
         this.liked = 0;
     }
 
-    public static Post of(String title, String content, String hashtag, String postType, UserAccount user) {
+    public static Post of(String title, String content, String contentRaw, String hashtag, String postType, UserAccount user) {
         // Todo : 검증 로직
-        return new Post(title, content, hashtag, Enum.valueOf(PostType.class, postType), user);
+        return new Post(title, content, contentRaw, hashtag, Enum.valueOf(PostType.class, postType), user);
     }
 
     @Override

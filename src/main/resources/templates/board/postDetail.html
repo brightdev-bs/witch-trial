@@ -10,7 +10,24 @@
     <title>게시글 페이지</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <style>
+
+        .ck-editor__editable[role="textbox"] {
+            /* editing area */
+            min-height: 200px;
+        }
+        .ck-content .image {
+            /* block images */
+            max-width: 80%;
+            margin: 20px auto;
+        }
+        label {
+            padding-left: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,27 +47,28 @@
             <section class="col-md-5 col-lg-4 order-md-last">
                 <aside>
                     <p><span id="username">작성자 : Vanille</span></p>
-                    <p id="email">작성자 ID : vanille@gmail.com</p>
                     <p><time id="created-at" datetime="2022-01-01T00:00:00">작성일 : 2022-01-01</time></p>
 <!--                    <p id="hashtag">#vanille</p>-->
                 </aside>
             </section>
 
-            <article id="post-content" class="col-md-7 col-lg-8">
-                <p>본문<br><br></p>
-            </article>
+            <div class="col-md-7 col-lg-8">
+                <label for="post-content" hidden>본문</label>
+                <textarea id="post-content" name="post-content" readonly></textarea>
+            </div>
         </div>
 
-        <div class="row g-5 pb-5 d-grid gap-2 d-md-block" id="article-buttons">
-            <form id="delete-post-form">
-                <div>
+        <div class="row g-5 pb-5 d-grid gap-2 d-md-block pt-2" id="article-buttons">
+            <section class="col-md-5 col-lg-4 order-md-last"></section>
+            <form id="delete-post-form" class="col-md-7 col-lg-8">
+                <div style="text-align: right">
                     <a class="btn btn-success me-md-2" role="button" id="update-article">수정</a>
                     <button class="btn btn-danger me-md-2" id="delete-post" onclick="deletePost()">삭제</button>
                 </div>
             </form>
         </div>
 
-        <div class="row g-5">
+        <div class="row g-5 mt-3">
             <section>
                 <form id="content-form" method="post" class="row g-3 comment-form">
                     <input type="hidden" class="post-id">
@@ -118,6 +136,20 @@
 
         function init() {
             postId = /*[[${postDetail?.id}]]*/
+
+            initEditor();
+        }
+
+        function initEditor() {
+            ClassicEditor
+                .create( document.querySelector( '#post-content' ), {
+                    // ...\
+                } )
+                .then( editor => {
+                    editor.enableReadOnlyMode( '#post-content' );
+                    const toolbarElement = editor.ui.view.toolbar.element;
+                    toolbarElement.style.display = 'none';
+                })
         }
 
         function deletePost() {

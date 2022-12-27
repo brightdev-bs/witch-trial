@@ -15,6 +15,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.springframework.web.util.HtmlUtils.htmlUnescape;
+
 public class PostDto {
 
     @Builder
@@ -25,8 +27,12 @@ public class PostDto {
         private String title;
 
         @NotBlank(message = "content is necessary")
-        @Size(max = 2000)
+        @Size(max = 3000)
         private String content;
+
+        @NotBlank(message = "content is necessary")
+        @Size(max = 2000)
+        private String contentRaw;
 
 //        @Nullable
 //        private String hashtag;
@@ -38,7 +44,7 @@ public class PostDto {
         private UserPrincipal userPrincipal;
 
         public static Post toEntity(Request dto, UserAccount user) {
-            return Post.of(dto.getTitle(), dto.getContent(), null, dto.getPostType(), user);
+            return Post.of(dto.getTitle(), dto.getContent(), dto.getContentRaw(), null, dto.getPostType(), user);
         }
     }
 
@@ -50,6 +56,8 @@ public class PostDto {
         private String title;
         @NotBlank
         private String content;
+        @NotBlank
+        private String contentRaw;
         private UserPrincipal userPrincipal;
     }
 
@@ -70,7 +78,7 @@ public class PostDto {
             return Response.builder()
                     .id(post.getId())
                     .title(post.getTitle())
-                    .content(post.getContent())
+                    .content(htmlUnescape(post.getContentRaw()))
                     .hashtag(post.getHashtag())
                     .postType(post.getPostType())
                     .createdBy(post.getCreatedBy())

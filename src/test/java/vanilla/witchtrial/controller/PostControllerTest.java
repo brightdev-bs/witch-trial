@@ -3,7 +3,6 @@ package vanilla.witchtrial.controller;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,7 +23,6 @@ import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.UserAccount;
 import vanilla.witchtrial.dto.BoardDto;
 import vanilla.witchtrial.dto.PostDto;
-import vanilla.witchtrial.repository.PostRepository;
 import vanilla.witchtrial.service.PostService;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -46,7 +44,6 @@ class PostControllerTest {
     public static final Long USER_ID = 1L;
     @Autowired private MockMvc mockMvc;
     @MockBean private PostService postService;
-    @Mock private PostRepository postRepository;
 
 
     @DisplayName("[view][GET] 게시판 리스트")
@@ -98,6 +95,7 @@ class PostControllerTest {
         params.add("title", "제목");
         params.add("postType", "trial");
         params.add("content", "더미 본문");
+        params.add("contentRaw", "더미 본문 raw");
 
         mockMvc.perform(post("/board/postForm")
                         .params(params)
@@ -133,7 +131,7 @@ class PostControllerTest {
     void getPostDetailView() throws Exception {
         Long postId = 1L;
         given(postService.getPostDetail(postId)).willReturn(
-                PostDto.Response.from(Post.of("title", "content", "#java", "TRIAL", getUserAccount(USER_ID)))
+                PostDto.Response.from(Post.of("title", "content", "content-raw", "#java", "TRIAL", getUserAccount(USER_ID)))
         );
 
         mockMvc.perform(get("/board/" + postId).with(csrf()))
@@ -203,6 +201,7 @@ class PostControllerTest {
         Post post = Post.of(
                 "title",
                 "content",
+                "content-raw",
                 "#java",
                 "TRIAL",
                 user

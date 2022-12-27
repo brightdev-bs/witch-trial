@@ -37,7 +37,7 @@ class PostCommentServiceImplTest {
     void savePostComment()  {
         // given
         UserAccount mock = mock(UserAccount.class);
-        given(postRepository.findByIdWithDsl(1L)).willReturn(Optional.of(Post.of("t", "c", "#t", "TRIAL", mock)));
+        given(postRepository.findByIdWithDsl(1L)).willReturn(Optional.of(Post.of("t", "c", "cr", "#t", "TRIAL", mock)));
         given(postCommentRepository.save(any(PostComment.class))).willReturn(null);
 
         // when

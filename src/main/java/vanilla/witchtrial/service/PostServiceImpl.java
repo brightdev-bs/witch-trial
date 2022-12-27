@@ -62,6 +62,7 @@ public class PostServiceImpl implements PostService {
         if(post.getUser().getId().equals(userPrincipal.id())) {
             post.setTitle(postDto.getTitle());
             post.setContent(postDto.getContent());
+            post.setContentRaw(postDto.getContentRaw());
             return PostDto.Response.from(post);
         } else {
             throw new IllegalAccessException(ErrorCode.ILLEGAL_CLIENT_REQUEST.getMessage());
