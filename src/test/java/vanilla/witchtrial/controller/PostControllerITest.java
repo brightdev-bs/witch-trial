@@ -45,7 +45,7 @@ public class PostControllerITest {
         // when
         MvcResult mvcResult = mockMvc.perform(get("/board")
                         .param("searchType", "CONTENT")
-                        .param("searchValue", "Donec dapibus.")
+                        .param("searchValue", "nulla")
                 )
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("boardList"))
@@ -55,7 +55,7 @@ public class PostControllerITest {
         ModelAndView modelAndView = mvcResult.getModelAndView();
         Map<String, Object> model = modelAndView.getModel();
         Page boardList = (Page) model.get("boardList");
-        Assertions.assertEquals(boardList.getNumberOfElements(), 2);
+        Assertions.assertEquals(boardList.getNumberOfElements(), 10);
     }
 
 

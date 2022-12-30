@@ -206,7 +206,6 @@ class PostServiceTest {
                 "title",
                 "content",
                 "content-raw",
-                "#java",
                 "TRIAL",
                 user
         );

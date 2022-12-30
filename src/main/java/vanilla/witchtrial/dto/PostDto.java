@@ -34,9 +34,6 @@ public class PostDto {
         @Size(max = 2000)
         private String contentRaw;
 
-//        @Nullable
-//        private String hashtag;
-
         @EnumValid(enumClass = PostType.class, ignoreCase = true)
         @NotNull(message = "post-type is necessary")
         private String postType;
@@ -44,7 +41,7 @@ public class PostDto {
         private UserPrincipal userPrincipal;
 
         public static Post toEntity(Request dto, UserAccount user) {
-            return Post.of(dto.getTitle(), dto.getContent(), dto.getContentRaw(), null, dto.getPostType(), user);
+            return Post.of(dto.getTitle(), dto.getContent(), dto.getContentRaw(), dto.getPostType(), user);
         }
     }
 
@@ -67,7 +64,6 @@ public class PostDto {
         private Long id;
         private String title;
         private String content;
-        private String hashtag;
         private PostType postType;
         private String createdBy;
         private LocalDateTime createdAt;
@@ -79,7 +75,6 @@ public class PostDto {
                     .id(post.getId())
                     .title(post.getTitle())
                     .content(htmlUnescape(post.getContentRaw()))
-                    .hashtag(post.getHashtag())
                     .postType(post.getPostType())
                     .createdBy(post.getCreatedBy())
                     .createdAt(post.getCreatedAt())

@@ -64,13 +64,13 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 return post.contentRaw.contains(request.getSearchValue());
             }
 
-            if(request.getSearchType().equals(BoardSearchType.HASHTAG.name())) {
-                String searchValue = request.getSearchValue();
-                if(searchValue.startsWith("#"))
-                    return post.hashtag.contains(request.getSearchValue());
-                else
-                    return post.hashtag.contains("#" + request.getSearchValue());
-            }
+//            if(request.getSearchType().equals(BoardSearchType.HASHTAG.name())) {
+//                String searchValue = request.getSearchValue();
+//                if(searchValue.startsWith("#"))
+//                    return post.hashtag.contains(request.getSearchValue());
+//                else
+//                    return post.hashtag.contains("#" + request.getSearchValue());
+//            }
 
             if(request.getSearchType().equals(BoardSearchType.NICKNAME.name())) {
                 return post.createdBy.contains(request.getSearchValue());
