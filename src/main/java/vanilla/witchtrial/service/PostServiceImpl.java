@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vanilla.witchtrial.domain.Hashtag;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.UserAccount;
 import vanilla.witchtrial.dto.BoardDto;
@@ -14,8 +15,12 @@ import vanilla.witchtrial.dto.PostDto;
 import vanilla.witchtrial.dto.UserPrincipal;
 import vanilla.witchtrial.global.common.constants.ErrorCode;
 import vanilla.witchtrial.global.exception.NotFoundException;
+import vanilla.witchtrial.repository.HashtagRepository;
 import vanilla.witchtrial.repository.PostRepository;
 import vanilla.witchtrial.repository.UserRepository;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,6 +29,7 @@ import vanilla.witchtrial.repository.UserRepository;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final HashtagRepository hashtagRepository;
     private final UserRepository userRepository;
 
     @Override
@@ -50,6 +56,14 @@ public class PostServiceImpl implements PostService {
         UserAccount user = userRepository.getReferenceById(postDto.getUserPrincipal().id());
         Post post = PostDto.Request.toEntity(postDto, user);
         postRepository.save(post);
+
+        Set<String> tags = postDto.getHashtags();
+        Set<Hashtag> hashtags = new LinkedHashSet<>();
+        for (String tag : tags) {
+            hashtags.add(Hashtag.of(tag, post));
+        }
+        hashtagRepository.saveAll(hashtags);
+
         return PostDto.Response.from(post);
     }
 

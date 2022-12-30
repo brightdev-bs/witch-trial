@@ -10,8 +10,14 @@
     <title>게시글 작성 페이지</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!-- 웹 에디터 -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
+    <!--  Tagify  -->
+    <script src="https://unpkg.com/@yaireo/tagify"></script>
+    <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
     <script th:src="@{/js/common.js}"></script>
 
     <style>
@@ -30,6 +36,68 @@
         }
         label {
             padding-left: 5px;
+        }
+
+        /*  tagify  */
+        article {
+            width: 100%;
+            max-width: 700px;
+        }
+        .customLook {
+            --tag-bg: #0052bf;
+            --tag-hover: #ce0078;
+            --tag-text-color: #fff;
+            --tags-border-color: silver;
+            --tag-text-color--edit: #111;
+            --tag-remove-bg: var(--tag-hover);
+            --tag-pad: 0.6em 1em;
+            --tag-inset-shadow-size: 1.3em;
+            --tag-remove-btn-bg--hover: black;
+            display: inline-block;
+            min-width: 0;
+            border: none;
+        }
+        .customLook .tagify__tag {
+            margin-top: 0;
+        }
+        .customLook .tagify__tag > div {
+            border-radius: 25px;
+        }
+        /* Do not show the "remove tag" (x) button when only a single tag remains */
+        .customLook .tagify__tag:only-of-type .tagify__tag__removeBtn {
+            display: none;
+        }
+        .customLook .tagify__tag__removeBtn {
+            opacity: 0;
+            transform: translateX(-6px) scale(0.5);
+            margin-left: -3ch;
+            transition: 0.12s;
+        }
+        .customLook .tagify__tag:hover .tagify__tag__removeBtn {
+            transform: none;
+            opacity: 1;
+            margin-left: -1ch;
+        }
+        .customLook + button {
+            color: #0052bf;
+            font: bold 1.4em/1.65 Arial;
+            border: 0;
+            background: none;
+            box-shadow: 0 0 0 2px inset currentColor;
+            border-radius: 50%;
+            width: 1.65em;
+            height: 1.65em;
+            cursor: pointer;
+            outline: none;
+            transition: 0.1s ease-out;
+            margin: 0 0 0 5px;
+            vertical-align: top;
+        }
+        .customLook + button:hover {
+            box-shadow: 0 0 0 5px inset currentColor;
+        }
+        .customLook .tagify__input {
+            display: none;
         }
     </style>
 </head>
@@ -58,10 +126,21 @@
             </select>
         </div>
 
+        <article>
+            <input class='customLook' value='some.name@website.com'>
+            <button type="button">+</button>
+        </article>
+
+
+        <input class="form-control" id="hashtag" name="hashtag" placeholder="해시태그" maxlength="255" rows="1"/>
+
+        <ul id="tag-list"></ul>
+
         <div class="form-group mb-4">
             <label for="content">본문</label>
             <textarea id="content" name="content"></textarea>
         </div>
+
 
         <div class="text-end">
             <button id="post-submit-btn" type=button class="btn btn-primary col-1">등록</button>
@@ -77,82 +156,105 @@
 
 <script th:inline="javascript">
 
-    let $editor = $('#content');
+    $(document).ready(function() {
+        let $editor = $('#content');
 
-    const status = /*[[${status}]]*/
+        // 글쓰기 or 수정
+        const status = /*[[${status}]]*/
 
-    function init() {
-        initEditor();
-        initPostType();
-    }
-
-    function initEditor() {
-        ClassicEditor
-            .create(document.querySelector('#content'))
-            .then(editor => {
-                $editor = editor;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
-
-    function initPostType() {
-        if(status != null)
-            $('#post-type').prop('disabled',true);
-    }
-
-    $('#post-submit-btn').on('click', function (){
-        let params = $('#submit-form').serializeObject();
-        let content = $editor.getData();
-        params.content = btoa(encodeURIComponent(content));
-        params.contentRaw = content.replaceAll("[&]", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll("\"", "&quot;")
-            .replaceAll("\\", "&#39;");
-
-        console.log("params = {}", content);
-        console.log("contentRaw = {}", content.replaceAll("[&]", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll("\"", "&quot;")
-            .replaceAll("\\", "&#39;"));
-        console.log("params = {}", params);
-
-        let postUrl = '';
-        if(status != null && status == 'update') {
-            postUrl = "/board/postForm/" + /*[[${postDetail?.id}]]*/
-        } else {
-            "/board/postForm"
+        function init() {
+            initEditor();
+            initTagify();
+            initPostType();
         }
 
-        $.ajax({
-            type: "POST",
-            url: postUrl,
-            data: params,
-            beforeSend: function (jqXHR, settings) {
-                var header = $("meta[name='_csrf_header']").attr("content");
-                var token = $("meta[name='_csrf']").attr("content");
-                jqXHR.setRequestHeader(header, token);
-            },
-            success: function(data) {
-                alert(data);
-                window.location.replace("/board");
-            },
-            error: function(response) {
-                console.log("response = {}", response);
-                console.log(response.responseJSON.data);
-                if(response.responseJSON.data.includes('title')) {
-                    alert("제목을 입력해주세요.");
-                } else if(response.responseJSON.data.includes('content')) {
-                    alert("본문을 입력해주세요.");
-                }
-            }
-        })
-    })
+        function initEditor() {
+            ClassicEditor
+                .create(document.querySelector('#content'))
+                .then(editor => {
+                    $editor = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
 
-    init();
+        function initTagify() {
+            let element = document.querySelector('#hashtag');
+            let tagify = new Tagify(element);
+
+            tagify.on('add', function() {
+                console.log(tagify.value);
+            })
+        }
+
+        function initPostType() {
+            if(status != null)
+                $('#post-type').prop('disabled',true);
+        }
+
+        function initHashtagList() {
+            // Todo : 타임리프 model에 있는 값 가져와야 함.
+        }
+
+        $('#post-submit-btn').on('click', function (){
+            let params = $('#submit-form').serializeObject();
+            let content = $editor.getData();
+            // 본문 base64인코딩 처리
+            params.content = btoa(encodeURIComponent(content));
+            // 본문 escape 처리
+            params.contentRaw = content.replaceAll("[&]", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll("\"", "&quot;")
+                .replaceAll("\\", "&#39;");
+
+            // 해시태그 value값만 가져오기
+            params.hashtags = JSON.parse(params.hashtag).map((e) => {
+                return e.value.toLowerCase();
+            });
+
+            let postUrl = getSubmitUrl();
+
+            console.log("params = {}", params);
+
+            $.ajax({
+                type: "POST",
+                url: postUrl,
+                data: params,
+                beforeSend: function (jqXHR, settings) {
+                    var header = $("meta[name='_csrf_header']").attr("content");
+                    var token = $("meta[name='_csrf']").attr("content");
+                    jqXHR.setRequestHeader(header, token);
+                },
+                success: function(data) {
+                    alert(data);
+                    window.location.replace("/board");
+                },
+                error: function(response) {
+                    console.log("response = {}", response);
+                    console.log(response.responseJSON.data);
+                    if(response.responseJSON.data.includes('title')) {
+                        alert("제목을 입력해주세요.");
+                    } else if(response.responseJSON.data.includes('content')) {
+                        alert("본문을 입력해주세요.");
+                    }
+                }
+            })
+        })
+
+        function getSubmitUrl() {
+            let postUrl = '';
+            if (status != null && status == 'update') {
+                postUrl = "/board/postForm/" + /*[[${postDetail?.id}]]*/
+            } else {
+                "/board/postForm"
+            }
+            return postUrl;
+        }
+
+        init();
+    });
 </script>
 
 <script src="/js/common.js"></script>

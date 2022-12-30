@@ -42,7 +42,8 @@ public class Post extends AuditingFields {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "post")
-    private List<Hashtag> hashtags;
+    @Setter
+    private Set<Hashtag> hashtags;
 
     @ToString.Exclude
     @OrderBy("id")
@@ -59,7 +60,7 @@ public class Post extends AuditingFields {
         this.user = user;
         this.view = 0;
         this.liked = 0;
-        this.hashtags = new ArrayList<>();
+        this.hashtags = new LinkedHashSet<>();
     }
 
     public static Post of(String title, String content, String contentRaw, String postType, UserAccount user) {

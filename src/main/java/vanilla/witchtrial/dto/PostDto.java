@@ -37,6 +37,7 @@ public class PostDto {
         @EnumValid(enumClass = PostType.class, ignoreCase = true)
         @NotNull(message = "post-type is necessary")
         private String postType;
+        private Set<String> hashtags;
         private String createdBy;
         private UserPrincipal userPrincipal;
 
