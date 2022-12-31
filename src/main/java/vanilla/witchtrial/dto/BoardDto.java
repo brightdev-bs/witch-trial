@@ -48,7 +48,6 @@ public class BoardDto {
                     .content(post.getTitle())
                     .liked(post.getLiked())
                     .view(post.getView())
-                    .hashtag(post.getHashtag())
                     .postType(post.getPostType().name())
                     .createdAt(post.getCreatedAt())
                     .createdBy(post.getCreatedBy())

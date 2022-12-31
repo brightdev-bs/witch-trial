@@ -42,7 +42,7 @@ class PostRepositoryTest {
     @Test
     void findByIdWithDslSucess() {
         Post post = postRepository.findByIdWithDsl(1L).orElseThrow(() -> new EntityNotFoundException(POST_NOT_FOUND.toString()));
-        assertEquals(2, post.getPostComments().size());
+        assertEquals(1, post.getPostComments().size());
     }
 
 }

@@ -55,6 +55,7 @@ public class PostController {
         if(postId != null) {
             PostDto.Response postDetail = postService.getPostDetail(postId);
             map.addAttribute("postDetail", postDetail);
+            map.addAttribute("hashtags", postDetail.getHashtags());
             map.addAttribute("status", "update");
         }
         map.addAttribute("postTypes", PostType.values());

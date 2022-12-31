@@ -131,7 +131,7 @@ class PostControllerTest {
     void getPostDetailView() throws Exception {
         Long postId = 1L;
         given(postService.getPostDetail(postId)).willReturn(
-                PostDto.Response.from(Post.of("title", "content", "content-raw", "#java", "TRIAL", getUserAccount(USER_ID)))
+                PostDto.Response.from(Post.of("title", "content", "content-raw", "TRIAL", getUserAccount(USER_ID)))
         );
 
         mockMvc.perform(get("/board/" + postId).with(csrf()))
@@ -202,7 +202,6 @@ class PostControllerTest {
                 "title",
                 "content",
                 "content-raw",
-                "#java",
                 "TRIAL",
                 user
         );

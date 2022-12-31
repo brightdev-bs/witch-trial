@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
+import vanilla.witchtrial.domain.Hashtag;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.UserAccount;
 import vanilla.witchtrial.dto.type.PostType;
@@ -34,17 +35,15 @@ public class PostDto {
         @Size(max = 2000)
         private String contentRaw;
 
-//        @Nullable
-//        private String hashtag;
-
         @EnumValid(enumClass = PostType.class, ignoreCase = true)
         @NotNull(message = "post-type is necessary")
         private String postType;
+        private Set<String> hashtags;
         private String createdBy;
         private UserPrincipal userPrincipal;
 
         public static Post toEntity(Request dto, UserAccount user) {
-            return Post.of(dto.getTitle(), dto.getContent(), dto.getContentRaw(), null, dto.getPostType(), user);
+            return Post.of(dto.getTitle(), dto.getContent(), dto.getContentRaw(), dto.getPostType(), user);
         }
     }
 
@@ -58,6 +57,7 @@ public class PostDto {
         private String content;
         @NotBlank
         private String contentRaw;
+        private Set<String> hashtags;
         private UserPrincipal userPrincipal;
     }
 
@@ -67,11 +67,11 @@ public class PostDto {
         private Long id;
         private String title;
         private String content;
-        private String hashtag;
         private PostType postType;
         private String createdBy;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
+        private Set<String> hashtags;
         private Set<PostCommentDto.Response> comments;
 
         public static Response from(Post post) {
@@ -79,13 +79,15 @@ public class PostDto {
                     .id(post.getId())
                     .title(post.getTitle())
                     .content(htmlUnescape(post.getContentRaw()))
-                    .hashtag(post.getHashtag())
                     .postType(post.getPostType())
                     .createdBy(post.getCreatedBy())
                     .createdAt(post.getCreatedAt())
                     .modifiedAt(post.getModifiedAt())
                     .comments(post.getPostComments().stream()
                             .map(PostCommentDto.Response::from)
+                            .collect(Collectors.toCollection(LinkedHashSet::new)))
+                    .hashtags(post.getHashtags().stream()
+                            .map(Hashtag::getTagName)
                             .collect(Collectors.toCollection(LinkedHashSet::new)))
                     .build();
         }
