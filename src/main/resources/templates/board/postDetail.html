@@ -13,6 +13,11 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 
+    <!--  Tagify  -->
+    <script src="https://unpkg.com/@yaireo/tagify"></script>
+    <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
     <style>
 
         .ck-editor__editable[role="textbox"] {
@@ -56,6 +61,10 @@
                 <label for="post-content" hidden>본문</label>
                 <textarea id="post-content" name="post-content" readonly></textarea>
             </div>
+        </div>
+
+        <div class="col-md-7 col-lg-8">
+            <input id="hashtags" name="hashtags" readonly/>
         </div>
 
         <div class="row g-5 pb-5 d-grid gap-2 d-md-block pt-2" id="article-buttons">
@@ -138,6 +147,16 @@
             postId = /*[[${postDetail?.id}]]*/
 
             initEditor();
+            initTagify();
+        }
+
+        function initTagify() {
+            let input = document.querySelector('input[name=hashtags]')
+            let tagify = new Tagify(input);
+
+            const hashtags = /*[[${postDetail.hashtags}]]*/
+            console.log("hashtags = {}", hashtags);
+            tagify.addTags(hashtags);
         }
 
         function initEditor() {
