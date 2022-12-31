@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
+import vanilla.witchtrial.domain.Hashtag;
 import vanilla.witchtrial.domain.Post;
 import vanilla.witchtrial.domain.UserAccount;
 import vanilla.witchtrial.dto.type.PostType;
@@ -56,6 +57,7 @@ public class PostDto {
         private String content;
         @NotBlank
         private String contentRaw;
+        private Set<String> hashtags;
         private UserPrincipal userPrincipal;
     }
 
@@ -69,6 +71,7 @@ public class PostDto {
         private String createdBy;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
+        private Set<String> hashtags;
         private Set<PostCommentDto.Response> comments;
 
         public static Response from(Post post) {
@@ -82,6 +85,9 @@ public class PostDto {
                     .modifiedAt(post.getModifiedAt())
                     .comments(post.getPostComments().stream()
                             .map(PostCommentDto.Response::from)
+                            .collect(Collectors.toCollection(LinkedHashSet::new)))
+                    .hashtags(post.getHashtags().stream()
+                            .map(Hashtag::getTagName)
                             .collect(Collectors.toCollection(LinkedHashSet::new)))
                     .build();
         }

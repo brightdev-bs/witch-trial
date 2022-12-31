@@ -41,8 +41,8 @@ public class Post extends AuditingFields {
     private UserAccount user;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "post")
     @Setter
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Hashtag> hashtags;
 
     @ToString.Exclude
@@ -78,4 +78,6 @@ public class Post extends AuditingFields {
     public int hashCode() {
         return Objects.hash(this.getId());
     }
+
+
 }

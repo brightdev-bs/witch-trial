@@ -19,6 +19,7 @@ import vanilla.witchtrial.repository.HashtagRepository;
 import vanilla.witchtrial.repository.PostRepository;
 import vanilla.witchtrial.repository.UserRepository;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -70,13 +71,27 @@ public class PostServiceImpl implements PostService {
     @Transactional
     @Override
     public PostDto.Response updatePost(PostDto.UpdateRequest postDto) throws EntityNotFoundException, IllegalAccessException {
-        Post post = postRepository.getReferenceById(postDto.getPostId());
+        Post post = postRepository.findByIdWithDsl(postDto.getPostId()).orElseThrow(() -> new NotFoundException(ErrorCode.POST_NOT_FOUND));
         UserPrincipal userPrincipal = postDto.getUserPrincipal();
 
         if(post.getUser().getId().equals(userPrincipal.id())) {
             post.setTitle(postDto.getTitle());
             post.setContent(postDto.getContent());
             post.setContentRaw(postDto.getContentRaw());
+
+            // 해시태그
+            Set<Hashtag> hashtags = post.getHashtags();
+            hashtagRepository.deleteAll(hashtags);
+
+            Set<String> updateTags = postDto.getHashtags();
+            Set<Hashtag> updateHashtags = new HashSet<>();
+            for (String updateTag : updateTags) {
+                Hashtag hashtag = Hashtag.of(updateTag, post);
+                updateHashtags.add(hashtag);
+            }
+            hashtagRepository.saveAll(updateHashtags);
+            post.setHashtags(updateHashtags);
+
             return PostDto.Response.from(post);
         } else {
             throw new IllegalAccessException(ErrorCode.ILLEGAL_CLIENT_REQUEST.getMessage());

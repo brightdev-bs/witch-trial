@@ -202,3 +202,7 @@ insert into post_comment (id, post_id, content, created_at, created_by, modified
 insert into post_comment (id, post_id, content, created_at, created_by, modified_at, modified_by) values (98, 98, 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', '2022-11-27 20:52:44', 'Mariquilla', '2022-11-01 15:11:32', 'Freda');
 insert into post_comment (id, post_id, content, created_at, created_by, modified_at, modified_by) values (99, 99, 'In congue.', '2022-01-18 18:21:42', 'Vin', '2021-12-07 10:53:48', 'King');
 insert into post_comment (id, post_id, content, created_at, created_by, modified_at, modified_by) values (100, 100, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.', '2022-11-14 01:43:53', 'Quintilla', '2022-10-25 05:58:31', 'Edd');
+
+insert into hashtag (id, created_at, created_by, modified_at, modified_by, tag_name, post_id) values (1, '2022-09-04 21:54:14', 'Realfire', '2022-01-22 00:21:32', 'Dr. Oberon Moms Care Cream', 'pwitt0', 1);
+insert into hashtag (id, created_at, created_by, modified_at, modified_by, tag_name, post_id) values (2, '2022-05-30 05:08:30', 'Yamia', '2022-11-27 06:24:18', 'ADVANCED CELL BOOSTING EX SERUM', 'mrattry1', 1);
+insert into hashtag (id, created_at, created_by, modified_at, modified_by, tag_name, post_id) values (3, '2022-12-07 07:08:33', 'Realpoint', '2022-01-03 23:36:40', 'ZESTRIL', 'fesche2', 1);
