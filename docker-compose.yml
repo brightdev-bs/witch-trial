@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  mysql:
+    container_name: witch-trial
+    image: mysql:8.0.30
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=witch-trial
+      - MYSQL_USER=vanilla
+      - MYSQL_PASSWORD=vanille
+      - MYSQL_ROOT_PASSWORD=vanille
+      - TZ=Asia/Seoul
